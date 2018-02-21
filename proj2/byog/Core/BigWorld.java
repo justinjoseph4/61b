@@ -81,8 +81,8 @@ public class BigWorld {
             }
 
 
-            Random RANDOM = new Random(97644);
-            int coin = RANDOM.nextInt(2);
+
+            int coin = 1;
 
 
 
@@ -165,10 +165,10 @@ public class BigWorld {
         public static void elbowpath3(TETile[][] world, Room r1, Room r2) {
 
             for (int x = r1.xposition; x < r2.xposition; x += 1) {
-                world[x][r2.yposition] = Tileset.FLOOR;
+                world[x][r1.yposition] = Tileset.FLOOR;
             }
             for (int y = r1.yposition; y < r2.yposition; y += 1) {
-                world[r1.xposition][y] = Tileset.FLOOR;
+                world[r2.xposition][y] = Tileset.FLOOR;
             }
         }
 
@@ -204,12 +204,12 @@ public class BigWorld {
             }
         }
 
-        Random RANDOM = new Random(988);
+        Random RANDOM = new Random(463388);
 
 
 
-        Room room1 = new Room(10,10,3,3);
-        Room room2 = new Room(30,30,3,3);
+        Room room1 = Room.createRoom(world,RANDOM);
+        Room room2 = Room.createRoom(world,RANDOM);
 
 
         Room.addRoom(world,room1);
