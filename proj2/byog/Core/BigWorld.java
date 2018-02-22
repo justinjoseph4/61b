@@ -11,6 +11,13 @@ import java.util.Random;
 public class BigWorld {
     // This is an array of room objects. it keeps track of room positioning and size
     Room[] Rooms;
+    TETile[][] world;
+
+    //Constructor for the BigWorld
+    public BigWorld(TETile[][] world, int numberOfRooms) {
+        Rooms = new Room[numberOfRooms];
+        this.world = world;
+    }
 
 
     //Keeps rack of room objects
@@ -20,6 +27,7 @@ public class BigWorld {
         int width;
         int length;
 
+        //constructor for the room objects
         public Room(int xpos, int ypos, int w, int l) {
             xposition = xpos;
             yposition = ypos;
@@ -204,7 +212,7 @@ public class BigWorld {
             }
         }
 
-        Random RANDOM = new Random(463388);
+        Random RANDOM = new Random(38);
 
 
 
