@@ -15,8 +15,8 @@ public class Room {
     //constructor for the room objects
     public Room(int xpos, int ypos, int w, int l, Random random) {
         this.random = random;
-        xposition = xpos;
-        yposition = ypos;
+        xposition = xpos + 1;
+        yposition = ypos + 1;
         width = w;
         length = l;
 

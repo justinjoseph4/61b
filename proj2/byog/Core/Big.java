@@ -1,6 +1,7 @@
 package byog.Core;
 
 import byog.TileEngine.TETile;
+import byog.TileEngine.Tileset;
 
 import java.util.Random;
 
@@ -23,6 +24,12 @@ public class Big {
 
     }
 
+    //makes a door in the first room
+    private void door() {
+        Room r = rooms[0];
+        world[r.xposition][r.yposition] = Tileset.UNLOCKED_DOOR;
+    }
+
 
     //generates random rooms and add them to the array objects
     public void constructRooms() {
@@ -36,9 +43,12 @@ public class Big {
             r.yposition = r.checkPosition(r.yposition, r.length, worldHieght);
             r.addRoom(world);
             rooms[i] = r;
+
         }
+
     }
 
+    //constructs hallways and then adds a door in the first room
     public void constructHallways() {
         Room r = rooms[0];
         int i = 1;
@@ -46,6 +56,40 @@ public class Big {
             r.linkRooms(world, rooms[i]);
             r = rooms[i];
             i += 1;
+        }
+        door();
+    }
+
+    //constructs walls around rooms and hallways
+    public void constructWalls() {
+        topBottomWalls();
+        //leftRightWalls();
+    }
+
+    //helper method to construct top and bottom part of the walls
+    private void topBottomWalls() {
+        for (int x = 0; x < worldWidth; x++) {
+            for (int y = 0; y < worldHieght -1; y++)
+                if(world[x][y] == Tileset.NOTHING && world[x][y+1] == Tileset.FLOOR) {
+                world[x][y] = Tileset.WALL;
+            }
+                else if(world[x][y] == Tileset.FLOOR && world[x][y+1] == Tileset.NOTHING) {
+                world[x][y+1] = Tileset.WALL;
+            }
+        }
+    }
+
+    //Helper method to construct right side and left side walls
+    private void leftRightWalls() {
+        for (int y = 0; y < worldHieght; y++) {
+            for (int x = 0; x < worldWidth; y++) {
+                if(world[x][y] == Tileset.NOTHING && world[x+1][y] == Tileset.FLOOR) {
+                    world[x][y] = Tileset.WALL;
+                }
+                else if(world[x][y] == Tileset.FLOOR && world[x+1][y] == Tileset.FLOOR) {
+                    world[x+1][y] = Tileset.WALL;
+                }
+            }
         }
     }
 

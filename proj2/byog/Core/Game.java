@@ -47,6 +47,7 @@ public class Game {
         Big world = new Big(finalWorldFrame, random, WIDTH, HEIGHT);
         world.constructRooms();
         world.constructHallways();
+        world.constructWalls();
 
 
 
