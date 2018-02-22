@@ -46,14 +46,14 @@ public class Room {
 
     //makes horizontal hallways from right to left
     private void horizontalHallways(TETile[][] world, int x1, int x2, int ypos) {
-        for (int x = x1; x < x2; x++) {
+        for (int x = x1; x < x2 + 1; x++) {
             world[x][ypos] = Tileset.FLOOR;
         }
     }
 
     //makes a vertical hallways upwards
     private void verticalHallways(TETile[][] world, int y1, int y2, int xpos) {
-        for (int y = y1; y < y2; y++) {
+        for (int y = y1; y < y2 + 1; y++) {
             world[xpos][y] = Tileset.FLOOR;
         }
     }

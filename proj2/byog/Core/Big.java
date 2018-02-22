@@ -57,13 +57,13 @@ public class Big {
             r = rooms[i];
             i += 1;
         }
-        door();
     }
 
     //constructs walls around rooms and hallways
     public void constructWalls() {
         topBottomWalls();
-        //leftRightWalls();
+        leftRightWalls();
+        door();
     }
 
     //helper method to construct top and bottom part of the walls
@@ -82,11 +82,11 @@ public class Big {
     //Helper method to construct right side and left side walls
     private void leftRightWalls() {
         for (int y = 0; y < worldHieght; y++) {
-            for (int x = 0; x < worldWidth; y++) {
+            for (int x = 0; x < worldWidth - 1; x++) {
                 if(world[x][y] == Tileset.NOTHING && world[x+1][y] == Tileset.FLOOR) {
                     world[x][y] = Tileset.WALL;
                 }
-                else if(world[x][y] == Tileset.FLOOR && world[x+1][y] == Tileset.FLOOR) {
+                else if(world[x][y] == Tileset.FLOOR && world[x+1][y] == Tileset.NOTHING) {
                     world[x+1][y] = Tileset.WALL;
                 }
             }
