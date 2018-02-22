@@ -45,7 +45,8 @@ public class Game {
         Long put = Long.parseLong(input);
         Random random = new Random(put);
         Big world = new Big(finalWorldFrame, random, WIDTH, HEIGHT);
-        world.addAllRooomsToArray();
+        world.constructRooms();
+        world.constructHallways();
 
 
 

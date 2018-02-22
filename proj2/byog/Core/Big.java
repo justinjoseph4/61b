@@ -15,7 +15,7 @@ public class Big {
     //Constructor for the big world
     public Big(TETile[][] world, Random random, int x, int y) {
         this.random = random;
-        numberOfRooms = RandomUtils.uniform(random, 8, 20);
+        numberOfRooms = RandomUtils.uniform(random, 12, 25);
         rooms = new Room[numberOfRooms];
         this.world = world;
         worldWidth = x;
@@ -25,7 +25,7 @@ public class Big {
 
 
     //generates random rooms and add them to the array objects
-    public void addAllRooomsToArray() {
+    public void constructRooms() {
         for (int i = 0; i < rooms.length; i++) {
             int l = RandomUtils.uniform(random, 1, 6);
             int w = RandomUtils.uniform(random, 1, 6);
@@ -36,6 +36,16 @@ public class Big {
             r.yposition = r.checkPosition(r.yposition, r.length, worldHieght);
             r.addRoom(world);
             rooms[i] = r;
+        }
+    }
+
+    public void constructHallways() {
+        Room r = rooms[0];
+        int i = 1;
+        while (i < rooms.length) {
+            r.linkRooms(world, rooms[i]);
+            r = rooms[i];
+            i += 1;
         }
     }
 

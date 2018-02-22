@@ -44,5 +44,73 @@ public class Room {
         }
     }
 
+    //makes horizontal hallways from right to left
+    private void horizontalHallways(TETile[][] world, int x1, int x2, int ypos) {
+        for (int x = x1; x < x2; x++) {
+            world[x][ypos] = Tileset.FLOOR;
+        }
+    }
+
+    //makes a vertical hallways upwards
+    private void verticalHallways(TETile[][] world, int y1, int y2, int xpos) {
+        for (int y = y1; y < y2; y++) {
+            world[xpos][y] = Tileset.FLOOR;
+        }
+    }
+
+    //makes an up right hallway
+    private void upRightHallway(TETile[][] world, int x1, int x2, int y1, int y2) {
+        verticalHallways(world, y1, y2, x1);
+        horizontalHallways(world, x1, x2, y2);
+    }
+
+    //makes a right down hallway
+    private void rightDownHallway(TETile[][] world, int x1, int x2, int y1, int y2) {
+        horizontalHallways(world, x1, x2, y2);
+        verticalHallways(world, y1, y2, x2);
+    }
+
+    //makes a down left hallway
+    private void downLeftHallway(TETile[][] world, int x1, int x2, int y1, int y2) {
+        verticalHallways(world, y1, y2, x2);
+        horizontalHallways(world, x1, x2, y1);
+    }
+
+    //makes a down right hallway
+    private void downRightHallway(TETile[][] world, int x1, int x2, int y1, int y2) {
+        verticalHallways(world, y1, y2, x1);
+        horizontalHallways(world, x1, x2, y1);
+    }
+
+
+    //contects two rooms to make a hallway
+    public void linkRooms(TETile[][] world, Room r) {
+        if(this.xposition < r.xposition) {
+            if (this.yposition == r.yposition) {
+                horizontalHallways(world, this.xposition, r.xposition, this.yposition);
+            }
+            else if(this.yposition < r.yposition) {
+                upRightHallway(world, this.xposition,r.xposition, this.yposition, r.yposition);
+            }
+            else {
+                rightDownHallway(world, this.xposition, r.xposition, r.yposition, this.yposition);
+            }
+        }
+        else if(this.xposition > r.xposition) {
+            if (this.yposition == r.yposition) {
+                horizontalHallways(world, r.xposition, this.xposition, r.yposition);
+            }
+            else if(this.yposition > r.yposition) {
+                downLeftHallway(world, r.xposition, this.xposition, r.yposition, this.yposition);
+            }
+            else {
+                downRightHallway(world, r.xposition, this.xposition, this.yposition, r.yposition);
+            }
+        }
+        else {
+            verticalHallways(world, this.xposition, r.xposition, r.xposition);
+        }
+    }
+
 
 }
