@@ -83,7 +83,7 @@ public class Room {
     }
 
 
-    //contects two rooms to make a hallway
+    //connects two rooms to make a hallway
     public void linkRooms(TETile[][] world, Room r) {
         if(this.xposition < r.xposition) {
             if (this.yposition == r.yposition) {
