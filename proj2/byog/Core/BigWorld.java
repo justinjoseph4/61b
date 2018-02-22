@@ -82,7 +82,7 @@ public class BigWorld {
 
 
 
-            int coin = 1;
+            int coin = 0;
 
 
 
@@ -204,17 +204,25 @@ public class BigWorld {
             }
         }
 
-        Random RANDOM = new Random(463388);
+        Random RANDOM = new Random(654);
 
 
 
         Room room1 = Room.createRoom(world,RANDOM);
         Room room2 = Room.createRoom(world,RANDOM);
+        Room room3 = Room.createRoom(world,RANDOM);
+        Room room4 = Room.createRoom(world,RANDOM);
 
 
         Room.addRoom(world,room1);
         Room.addRoom(world,room2);
+        Room.addRoom(world,room3);
+        Room.addRoom(world,room4);
+
         Room.linkRooms(world,room1,room2);
+        Room.linkRooms(world,room2,room3);
+        Room.linkRooms(world,room3,room4);
+        Room.linkRooms(world,room4,room1);
 
 
         ter.renderFrame(world);
