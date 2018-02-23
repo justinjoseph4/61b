@@ -94,6 +94,11 @@ public class Big {
 
     //constructs rooms, hallways, and walls in the world
     public void constructWorld() {
+        for (int x = 0; x < world.length; x += 1) {
+            for (int y = 0; y < world[0].length; y += 1) {
+                world[x][y] = Tileset.NOTHING;
+            }
+        }
         constructRooms();
         constructHallways();
         constructWalls();
