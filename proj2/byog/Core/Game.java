@@ -60,7 +60,6 @@ public class Game {
         world.constructWorld(); //constructs the world with rooms, hallways, and walls
 
 
-
         return finalWorldFrame;
     }
 

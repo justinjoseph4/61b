@@ -64,7 +64,7 @@ public class Big {
     public void constructWalls() {
         topBottomWalls();
         leftRightWalls();
-        door();
+        //door();
     }
 
     //helper method to construct top and bottom part of the walls
