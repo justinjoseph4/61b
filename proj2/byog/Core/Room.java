@@ -105,7 +105,7 @@ public class Room {
                 verticalHallways(world, r.yposition, this.yposition, r.xposition);
             }
             else {
-                verticalHallways(world, this.xposition, r.xposition, r.xposition);
+                verticalHallways(world, this.yposition, r.yposition, r.xposition);
             }
         }
     }
