@@ -194,7 +194,6 @@ public class BigWorld {
 
 
     public static void main(String[] args) {
-        /**
         TERenderer ter = new TERenderer();
         int width = 50;
         int length = 50;
@@ -220,14 +219,6 @@ public class BigWorld {
 
 
         ter.renderFrame(world);
-         */
-
-        String input = "N7357235j";
-        char[] seed = input.toCharArray();
-        char[] trueseed = new char[seed.length - 2];
-        System.arraycopy(seed,1,trueseed,0,seed.length-2);
-        String peach = new String(trueseed);
-        Long put = Long.parseLong(peach);
 
     }
 
