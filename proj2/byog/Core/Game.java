@@ -3,6 +3,7 @@ package byog.Core;
 import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
+
 import java.util.Random;
 
 public class Game {
@@ -26,6 +27,7 @@ public class Game {
      * world. However, the behavior is slightly different. After playing with "n123sss:q", the game
      * should save, and thus if we then called playWithInputString with the string "l", we'd expect
      * to get the exact same world back again, since this corresponds to loading the saved game.
+     *
      * @param input the input string to feed to your program
      * @return the 2D TETile[][] representing the state of the world
      */
@@ -33,30 +35,27 @@ public class Game {
         // TODO: Fill out this method to run the game using the input passed in,
         // and return a 2D tile representation of the world that would have been
         // drawn if the same inputs had been given to playWithKeyboard().
-        ter.initialize(WIDTH, HEIGHT);
+        //ter.initialize(WIDTH, HEIGHT);
 
-<<<<<<< HEAD
-        TETile[][] finalWorldFrame = new TETile[WIDTH];
-=======
 
         TETile[][] finalWorldFrame = new TETile[WIDTH][HEIGHT];
-        for (int x = 0; x < WIDTH; x += 1) {
-            for (int y = 0; y < HEIGHT; y += 1) {
-                finalWorldFrame[x][y] = Tileset.NOTHING;
-            }
-        }
+        //for (int x = 0; x < WIDTH; x += 1) {
+        //  for (int y = 0; y < HEIGHT; y += 1) {
+        //    finalWorldFrame[x][y] = Tileset.NOTHING;
+        //}
+        //}
+
+        char[] seed = input.toCharArray();
+        char[] trueseed = new char[seed.length - 1];
+        System.arraycopy(seed,1,trueseed,0,seed.length-2);
+
         Long put = Long.parseLong(input);
-        Random random = new Random(put);
+        Random random = new Random(put);    //save the seed into a random
         Big world = new Big(finalWorldFrame, random, WIDTH, HEIGHT);
-        world.addAllRooomsToArray();
+        world.constructWorld(); //constructs the world with rooms, hallways, and walls
 
 
 
-
-
-
-        ter.renderFrame(finalWorldFrame);
->>>>>>> 0e5759cd09103a3b06f3880beea24975575305a7
         return finalWorldFrame;
     }
 }
