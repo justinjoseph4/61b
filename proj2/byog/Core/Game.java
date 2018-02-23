@@ -46,10 +46,11 @@ public class Game {
         //}
 
         char[] seed = input.toCharArray();
-        char[] trueseed = new char[seed.length - 1];
+        char[] trueseed = new char[seed.length - 2];
         System.arraycopy(seed,1,trueseed,0,seed.length-2);
+        String peach = new String(trueseed);
 
-        Long put = Long.parseLong(input);
+        Long put = Long.parseLong(peach);
         Random random = new Random(put);    //save the seed into a random
         Big world = new Big(finalWorldFrame, random, WIDTH, HEIGHT);
         world.constructWorld(); //constructs the world with rooms, hallways, and walls
