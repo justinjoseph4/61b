@@ -101,10 +101,9 @@ public class Room {
                 downRightHallway(world, r.xposition, this.xposition, this.yposition, r.yposition);
             }
         } else {
-            if(r.yposition < this.yposition) {
+            if (r.yposition < this.yposition) {
                 verticalHallways(world, r.yposition, this.yposition, r.xposition);
-            }
-            else {
+            } else {
                 verticalHallways(world, this.yposition, r.yposition, r.xposition);
             }
         }

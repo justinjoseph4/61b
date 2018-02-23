@@ -2,7 +2,7 @@ package byog.Core;
 
 import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
-import byog.TileEngine.Tileset;
+
 
 import java.util.Random;
 
@@ -32,29 +32,19 @@ public class Game {
      * @return the 2D TETile[][] representing the state of the world
      */
     public TETile[][] playWithInputString(String input) {
-        // TODO: Fill out this method to run the game using the input passed in,
+        // Fill out this method to run the game using the input passed in,
         // and return a 2D tile representation of the world that would have been
         // drawn if the same inputs had been given to playWithKeyboard().
         //ter.initialize(WIDTH, HEIGHT);
 
-
         TETile[][] finalWorldFrame = new TETile[WIDTH][HEIGHT];
-
-        //for (int x = 0; x < WIDTH; x += 1) {
-        //  for (int y = 0; y < HEIGHT; y += 1) {
-        //    finalWorldFrame[x][y] = Tileset.NOTHING;
-        //}
-        //}
-
 
         char[] seed = input.toCharArray();
         char[] trueseed = new char[seed.length - 2];
-        System.arraycopy(seed,1,trueseed,0,seed.length-2);
+        System.arraycopy(seed, 1, trueseed, 0, seed.length - 2);
         String peach = new String(trueseed);
 
         Long put = Long.parseLong(peach);
-
-
         Random random = new Random(put);    //save the seed into a random
         Big world = new Big(finalWorldFrame, random, WIDTH, HEIGHT);
         world.constructWorld(); //constructs the world with rooms, hallways, and walls
@@ -62,6 +52,6 @@ public class Game {
 
         return finalWorldFrame;
     }
-
-    
 }
+
+

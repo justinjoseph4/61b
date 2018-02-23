@@ -70,12 +70,13 @@ public class Big {
     //helper method to construct top and bottom part of the walls
     private void topBottomWalls() {
         for (int x = 0; x < worldWidth; x++) {
-            for (int y = 0; y < worldHieght - 1; y++)
+            for (int y = 0; y < worldHieght - 1; y++) {
                 if (world[x][y] == Tileset.NOTHING && world[x][y + 1] == Tileset.FLOOR) {
                     world[x][y] = Tileset.WALL;
                 } else if (world[x][y] == Tileset.FLOOR && world[x][y + 1] == Tileset.NOTHING) {
                     world[x][y + 1] = Tileset.WALL;
                 }
+            }
         }
     }
 

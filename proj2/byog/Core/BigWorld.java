@@ -1,10 +1,10 @@
 package byog.Core;
 
-import byog.TileEngine.TERenderer;
+//import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
 
-import java.util.Random;
+//import java.util.Random;
 
 // So far adds rooms to a randomly generated world.
 //contains a nested room class
@@ -35,9 +35,11 @@ public class BigWorld {
             length = l;
         }
 
-        //create a new random room. here we assume we are given a random object with an inputted seed.
+        /*create a new random room. here we assume we are given a
+        random object with an inputted seed.
+         */
         //the - 5 is supposed to not make rooms to close to edges. we should fix that later
-        public static Room createRoom(TETile[][] world, Random RANDOM) {
+       /* public static Room createRoom(TETile[][] world, Random RANDOM) {
             int randomx = RANDOM.nextInt(world.length - 5);
             int randomy = RANDOM.nextInt(world[0].length - 5);
             int randomwidth = RandomUtils.uniform(RANDOM, 1, 6);
@@ -46,7 +48,7 @@ public class BigWorld {
             return new Room(randomx, randomy, randomwidth, randomlength);
 
 
-        }
+        }*/
 
         // returns leftmost room. if both rooms have same x position, returns bottommost
         private static Room rearrangeRooms(Room r1, Room r2) {
@@ -193,7 +195,7 @@ public class BigWorld {
     }
 
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         TERenderer ter = new TERenderer();
         int width = 50;
         int length = 50;
@@ -220,6 +222,6 @@ public class BigWorld {
 
         ter.renderFrame(world);
 
-    }
+    }*/
 
 }
