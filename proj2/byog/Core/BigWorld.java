@@ -10,12 +10,12 @@ import java.util.Random;
 //contains a nested room class
 public class BigWorld {
     // This is an array of room objects. it keeps track of room positioning and size
-    Room[] Rooms;
+    Room[] rooms;
     TETile[][] world;
 
     //Constructor for the BigWorld
     public BigWorld(TETile[][] world, int numberOfRooms) {
-        Rooms = new Room[numberOfRooms];
+        rooms = new Room[numberOfRooms];
         this.world = world;
     }
 
@@ -37,13 +37,13 @@ public class BigWorld {
 
         //create a new random room. here we assume we are given a random object with an inputted seed.
         //the - 5 is supposed to not make rooms to close to edges. we should fix that later
-        public static Room createRoom(TETile[][] world,Random RANDOM) {
+        public static Room createRoom(TETile[][] world, Random RANDOM) {
             int randomx = RANDOM.nextInt(world.length - 5);
             int randomy = RANDOM.nextInt(world[0].length - 5);
-            int randomwidth = RandomUtils.uniform(RANDOM,1,6);
-            int randomlength = RandomUtils.uniform(RANDOM,1,6);
+            int randomwidth = RandomUtils.uniform(RANDOM, 1, 6);
+            int randomlength = RandomUtils.uniform(RANDOM, 1, 6);
 
-            return new Room(randomx,randomy,randomwidth,randomlength);
+            return new Room(randomx, randomy, randomwidth, randomlength);
 
 
         }
@@ -80,7 +80,7 @@ public class BigWorld {
 
         // Links two rooms with a hallway. Starts building fromm room start.
         public static void linkRooms(TETile[][] world, Room r1, Room r2) {
-            Room start = rearrangeRooms(r1,r2);
+            Room start = rearrangeRooms(r1, r2);
             Room end = r2;
 
 
@@ -89,14 +89,12 @@ public class BigWorld {
             }
 
 
-
             int coin = 1;
-
 
 
             //first case: if we need to make a straight path
             if (start.xposition == end.xposition || start.yposition == end.yposition) {
-                straightpath(world,start,end);
+                straightpath(world, start, end);
             }
 
             //second case: if room 2 is the the right and below room 1
@@ -119,8 +117,8 @@ public class BigWorld {
             }
 
 
-
         }
+
         //assume r1 is leftmost or bottommost.
         public static void straightpath(TETile[][] world, Room r1, Room r2) {
 
@@ -167,7 +165,6 @@ public class BigWorld {
         }
 
 
-
         //assumes r2 is to the right and above room 1.
         // builds to the right. then builds upward
         public static void elbowpath3(TETile[][] world, Room r1, Room r2) {
@@ -196,9 +193,6 @@ public class BigWorld {
     }
 
 
-
-
-
     public static void main(String[] args) {
         TERenderer ter = new TERenderer();
         int width = 50;
@@ -215,14 +209,13 @@ public class BigWorld {
         Random RANDOM = new Random(38);
 
 
+        Room room1 = Room.createRoom(world, RANDOM);
+        Room room2 = Room.createRoom(world, RANDOM);
 
-        Room room1 = Room.createRoom(world,RANDOM);
-        Room room2 = Room.createRoom(world,RANDOM);
 
-
-        Room.addRoom(world,room1);
-        Room.addRoom(world,room2);
-        Room.linkRooms(world,room1,room2);
+        Room.addRoom(world, room1);
+        Room.addRoom(world, room2);
+        Room.linkRooms(world, room1, room2);
 
 
         ter.renderFrame(world);

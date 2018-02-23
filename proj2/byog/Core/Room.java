@@ -26,13 +26,12 @@ public class Room {
     public int checkPosition(int pos, int size, int cor) {
         if (pos + size + 1 < cor || pos - size - 1 > 0) {
             return pos;
-        }else {
+        } else {
             pos = RandomUtils.uniform(random, 1, 6);
             return checkPosition(pos, size, cor);
         }
 
     }
-
 
 
     //adds a generated room to a world
@@ -85,32 +84,24 @@ public class Room {
 
     //connects two rooms to make a hallway
     public void linkRooms(TETile[][] world, Room r) {
-        if(this.xposition < r.xposition) {
+        if (this.xposition < r.xposition) {
             if (this.yposition == r.yposition) {
                 horizontalHallways(world, this.xposition, r.xposition, this.yposition);
-            }
-            else if(this.yposition < r.yposition) {
-                upRightHallway(world, this.xposition,r.xposition, this.yposition, r.yposition);
-            }
-            else {
+            } else if (this.yposition < r.yposition) {
+                upRightHallway(world, this.xposition, r.xposition, this.yposition, r.yposition);
+            } else {
                 rightDownHallway(world, this.xposition, r.xposition, r.yposition, this.yposition);
             }
-        }
-        else if(this.xposition > r.xposition) {
+        } else if (this.xposition > r.xposition) {
             if (this.yposition == r.yposition) {
                 horizontalHallways(world, r.xposition, this.xposition, r.yposition);
-            }
-            else if(this.yposition > r.yposition) {
+            } else if (this.yposition > r.yposition) {
                 downLeftHallway(world, r.xposition, this.xposition, r.yposition, this.yposition);
-            }
-            else {
+            } else {
                 downRightHallway(world, r.xposition, this.xposition, this.yposition, r.yposition);
             }
-        }
-        else {
+        } else {
             verticalHallways(world, this.xposition, r.xposition, r.xposition);
         }
     }
-
-
 }

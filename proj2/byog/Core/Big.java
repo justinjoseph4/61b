@@ -1,5 +1,6 @@
 package byog.Core;
 
+
 import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
 
@@ -32,11 +33,11 @@ public class Big {
 
 
     //generates random rooms and add them to the array objects
-    public void constructRooms() {
+    private void constructRooms() {
         for (int i = 0; i < rooms.length; i++) {
             int l = RandomUtils.uniform(random, 1, 6);
             int w = RandomUtils.uniform(random, 1, 6);
-            int xpos =  RandomUtils.uniform(random, 0, worldWidth - 6);
+            int xpos = RandomUtils.uniform(random, 0, worldWidth - 6);
             int ypos = RandomUtils.uniform(random, 0, worldHieght - 6);
             Room r = new Room(xpos, ypos, w, l, random);
             r.xposition = r.checkPosition(r.xposition, r.width, worldWidth);
@@ -49,7 +50,7 @@ public class Big {
     }
 
     //constructs hallways and then adds a door in the first room
-    public void constructHallways() {
+    private void constructHallways() {
         Room r = rooms[0];
         int i = 1;
         while (i < rooms.length) {
@@ -69,13 +70,12 @@ public class Big {
     //helper method to construct top and bottom part of the walls
     private void topBottomWalls() {
         for (int x = 0; x < worldWidth; x++) {
-            for (int y = 0; y < worldHieght -1; y++)
-                if(world[x][y] == Tileset.NOTHING && world[x][y+1] == Tileset.FLOOR) {
-                world[x][y] = Tileset.WALL;
-            }
-                else if(world[x][y] == Tileset.FLOOR && world[x][y+1] == Tileset.NOTHING) {
-                world[x][y+1] = Tileset.WALL;
-            }
+            for (int y = 0; y < worldHieght - 1; y++)
+                if (world[x][y] == Tileset.NOTHING && world[x][y + 1] == Tileset.FLOOR) {
+                    world[x][y] = Tileset.WALL;
+                } else if (world[x][y] == Tileset.FLOOR && world[x][y + 1] == Tileset.NOTHING) {
+                    world[x][y + 1] = Tileset.WALL;
+                }
         }
     }
 
@@ -83,18 +83,19 @@ public class Big {
     private void leftRightWalls() {
         for (int y = 0; y < worldHieght; y++) {
             for (int x = 0; x < worldWidth - 1; x++) {
-                if(world[x][y] == Tileset.NOTHING && world[x+1][y] == Tileset.FLOOR) {
+                if (world[x][y] == Tileset.NOTHING && world[x + 1][y] == Tileset.FLOOR) {
                     world[x][y] = Tileset.WALL;
-                }
-                else if(world[x][y] == Tileset.FLOOR && world[x+1][y] == Tileset.NOTHING) {
-                    world[x+1][y] = Tileset.WALL;
+                } else if (world[x][y] == Tileset.FLOOR && world[x + 1][y] == Tileset.NOTHING) {
+                    world[x + 1][y] = Tileset.WALL;
                 }
             }
         }
     }
 
-
-
-
-
+    //constructs rooms, hallways, and walls in the world
+    public void constructWorld() {
+        constructRooms();
+        constructHallways();
+        constructWalls();
+    }
 }
