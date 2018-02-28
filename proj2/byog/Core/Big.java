@@ -26,6 +26,7 @@ public class Big {
     }
 
     //makes a door in the first room
+
     private void door() {
         Room r = rooms[0];
         world[r.xposition][r.yposition] = Tileset.UNLOCKED_DOOR;
@@ -35,10 +36,10 @@ public class Big {
     //generates random rooms and add them to the array objects
     private void constructRooms() {
         for (int i = 0; i < rooms.length; i++) {
-            int l = RandomUtils.uniform(random, 1, 6);
-            int w = RandomUtils.uniform(random, 1, 6);
-            int xpos = RandomUtils.uniform(random, 0, worldWidth - 6);
-            int ypos = RandomUtils.uniform(random, 0, worldHieght - 6);
+            int l = RandomUtils.uniform(random, 3, 10);
+            int w = RandomUtils.uniform(random, 3, 10);
+            int xpos = RandomUtils.uniform(random, 0, worldWidth - 10);
+            int ypos = RandomUtils.uniform(random, 0, worldHieght - 10);
             Room r = new Room(xpos, ypos, w, l, random);
             r.xposition = r.checkPosition(r.xposition, r.width, worldWidth);
             r.yposition = r.checkPosition(r.yposition, r.length, worldHieght);
@@ -64,7 +65,8 @@ public class Big {
     public void constructWalls() {
         topBottomWalls();
         leftRightWalls();
-        door();
+
+        // door();
     }
 
     //helper method to construct top and bottom part of the walls
