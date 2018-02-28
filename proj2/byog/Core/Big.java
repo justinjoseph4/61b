@@ -108,6 +108,12 @@ public class Big {
         }
     }
 
+    //Places a key in a random room
+    public void keyPlacer() {
+        Room r = rooms[rooms.length/2];
+        world[r.xposition][r.yposition] = Tileset.KEY;
+    }
+
 
     //constructs rooms, hallways, and walls in the world
     public void constructWorld() {
@@ -120,6 +126,7 @@ public class Big {
         constructHallways();
         constructWalls();
         door();
+        keyPlacer();
 
     }
 

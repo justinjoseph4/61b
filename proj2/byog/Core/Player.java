@@ -20,7 +20,35 @@ public class Player {
         world[x][y] = Tileset.PLAYER;
     }
 
-    //moves the player left, right, down, and up
+    //Moves player up
+    private void moveUp() {
+        world[xpos][ypos+1] = Tileset.PLAYER;
+        world[xpos][ypos] = Tileset.FLOOR;
+        this.ypos += 1;
+    }
+
+    //Moves player left
+    private void moveLeft() {
+        world[xpos-1][ypos] = Tileset.PLAYER;
+        world[xpos][ypos] = Tileset.FLOOR;
+        this.xpos -= 1;
+    }
+
+    //Moves player right
+    private void moveRight() {
+        world[xpos + 1][ypos] = Tileset.PLAYER;
+        world[xpos][ypos] = Tileset.FLOOR;
+        this.xpos += 1;
+    }
+
+    //Moves player down
+    private void moveDown() {
+        world[xpos][ypos - 1] = Tileset.PLAYER;
+        world[xpos][ypos] = Tileset.FLOOR;
+        this.ypos -= 1;
+    }
+
+    //moves the player in all direction in the world
     public void movePlayer(TERenderer ter) {
         while(!gameOver) {
             ter.renderFrame(world);
@@ -29,31 +57,40 @@ public class Player {
                 String let = String.valueOf(character);
                 if(let.equals("w")) {
                     if(world[xpos][ypos+1] == Tileset.FLOOR) {
-                        world[xpos][ypos+1] = Tileset.PLAYER;
-                        world[xpos][ypos] = Tileset.FLOOR;
-                        this.ypos += 1;
+                        moveUp();
 
+                    }
+                    if(world[xpos][ypos] == Tileset.KEY) {
+                        this.key = true;
+                        moveUp();
                     }
                 }
                 if(let.equals("a")) {
                     if(world[xpos-1][ypos] == Tileset.FLOOR) {
-                        world[xpos-1][ypos] = Tileset.PLAYER;
-                        world[xpos][ypos] = Tileset.FLOOR;
-                        this.xpos -= 1;
+                        moveLeft();
+                    }
+                    if(world[xpos - 1][ypos] == Tileset.KEY) {
+                        this.key = true;
+                        moveLeft();
                     }
                 }
                 if(let.equals("d")) {
                     if(world[xpos + 1][ypos] == Tileset.FLOOR) {
-                        world[xpos + 1][ypos] = Tileset.PLAYER;
-                        world[xpos][ypos] = Tileset.FLOOR;
-                        this.xpos += 1;
+                       moveRight();
+                    }
+                    if(world[xpos + 1][ypos] == Tileset.KEY) {
+                        this.key = true;
+                        moveRight();
                     }
                 }
                 if(let.equals("s")) {
                     if(world[xpos][ypos - 1] == Tileset.FLOOR) {
-                        world[xpos][ypos - 1] = Tileset.PLAYER;
-                        world[xpos][ypos] = Tileset.FLOOR;
-                        this.ypos -= 1;
+                        moveDown();
+
+                    }
+                    if(world[xpos][ypos - 1] == Tileset.KEY) {
+                        this.key = true;
+                        moveDown();
                     }
                 }
             }
