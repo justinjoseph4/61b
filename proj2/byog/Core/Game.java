@@ -2,6 +2,7 @@ package byog.Core;
 
 import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
+import edu.princeton.cs.introcs.StdDraw;
 
 
 import java.util.Random;
@@ -49,7 +50,12 @@ public class Game {
         Big world = new Big(finalWorldFrame, random, WIDTH, HEIGHT);
         world.constructWorld(); //constructs the world with rooms, hallways, and walls
 
-        ter.renderFrame(finalWorldFrame);
+
+        world.player(ter);
+        //ter.renderFrame(finalWorldFrame);
+
+
+
 
         return finalWorldFrame;
     }

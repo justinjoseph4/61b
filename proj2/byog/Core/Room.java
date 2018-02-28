@@ -36,8 +36,8 @@ public class Room {
             else {
                 this.length= RandomUtils.uniform(random, 3, 10);
                 this.width = RandomUtils.uniform(random, 3, 10);
-                this.xposition = RandomUtils.uniform(random, 0, worldWidth - 10);
-                this.yposition = RandomUtils.uniform(random, 0, worldHieght - 10);
+                this.xposition = RandomUtils.uniform(random, 1, worldWidth - 10);
+                this.yposition = RandomUtils.uniform(random, 1, worldHieght - 10);
                 this.xposition = this.checkPosition(this.xposition, this.width, worldWidth);
                 this.yposition = this.checkPosition(this.yposition, this.length, worldHieght);
                 this.roomOverLap(r, i, worldWidth, worldHieght);

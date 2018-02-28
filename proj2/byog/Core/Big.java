@@ -1,6 +1,7 @@
 package byog.Core;
 
 
+import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
 
@@ -25,10 +26,23 @@ public class Big {
 
     }
 
+    //helper method
+    private void checkForWall (int x, int y) {
+        if (world[x][y] == Tileset.WALL) {
+            world[x][y] = Tileset.LOCKED_DOOR;
+        }
+        else {
+            y +=1 ;
+            checkForWall(x, y);
+        }
+    }
+
     //makes a door in the first room
     private void door() {
-        Room r = rooms[0];
-        world[r.xposition][r.yposition] = Tileset.UNLOCKED_DOOR;
+        Room r = rooms[rooms.length - 1];
+        int s = r.xposition;
+        int t = r.y2;
+        checkForWall(s, t);
     }
 
 
@@ -37,8 +51,8 @@ public class Big {
         for (int i = 0; i < rooms.length; i++) {
             int l = RandomUtils.uniform(random, 3, 10);
             int w = RandomUtils.uniform(random, 3, 10);
-            int xpos = RandomUtils.uniform(random, 0, worldWidth - 10);
-            int ypos = RandomUtils.uniform(random, 0, worldHieght - 10);
+            int xpos = RandomUtils.uniform(random, 1, worldWidth - 10);
+            int ypos = RandomUtils.uniform(random, 1, worldHieght - 10);
             Room r = new Room(xpos, ypos, w, l, random);
             r.xposition = r.checkPosition(r.xposition, r.width, worldWidth);
             r.yposition = r.checkPosition(r.yposition, r.length, worldHieght);
@@ -65,7 +79,7 @@ public class Big {
     public void constructWalls() {
         topBottomWalls();
         leftRightWalls();
-        //door();
+
     }
 
     //helper method to construct top and bottom part of the walls
@@ -105,7 +119,14 @@ public class Big {
         constructRooms();
         constructHallways();
         constructWalls();
-        Player p = new Player(rooms[0].xposition, rooms[0].yposition, world);
+        door();
 
+    }
+
+
+    //move the player
+    public void player(TERenderer ter) {
+        Player p = new Player(rooms[0].xposition, rooms[0].yposition, world);
+        p.movePlayer(ter);
     }
 }
