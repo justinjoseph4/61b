@@ -9,6 +9,8 @@ public class Room {
     Random random;
     int xposition;
     int yposition;
+    int x2;
+    int y2;
     int width;
     int length;
 
@@ -19,7 +21,28 @@ public class Room {
         yposition = ypos + 1;
         width = w;
         length = l;
+        x2 = xposition + w;
+        y2 = yposition + l;
 
+    }
+
+    //Check if a room overlaps any other room
+    public void roomOverLap(Room[] r, int x, int worldWidth, int worldHieght) {
+        for( int i = 0; i < x; i++) {
+            if (r[i].xposition > this.xposition || this.x2 > r[i].x2 + 1
+                    && r[i].yposition > this.yposition || this.y2  > r[i].y2 + 1) {
+
+            }
+            else {
+                this.length= RandomUtils.uniform(random, 3, 10);
+                this.width = RandomUtils.uniform(random, 3, 10);
+                this.xposition = RandomUtils.uniform(random, 0, worldWidth - 10);
+                this.yposition = RandomUtils.uniform(random, 0, worldHieght - 10);
+                this.xposition = this.checkPosition(this.xposition, this.width, worldWidth);
+                this.yposition = this.checkPosition(this.yposition, this.length, worldHieght);
+                this.roomOverLap(r, i, worldWidth, worldHieght);
+            }
+        }
     }
 
     //methods that check if a room is off the screen
@@ -27,7 +50,7 @@ public class Room {
         if (pos + size + 1 < cor || pos - size - 1 > 0) {
             return pos;
         } else {
-            pos = RandomUtils.uniform(random, 1, 6);
+            pos = RandomUtils.uniform(random, 3, 10);
             return checkPosition(pos, size, cor);
         }
 
@@ -101,7 +124,11 @@ public class Room {
                 downRightHallway(world, r.xposition, this.xposition, this.yposition, r.yposition);
             }
         } else {
-            verticalHallways(world, this.xposition, r.xposition, r.xposition);
+            if (r.yposition < this.yposition) {
+                verticalHallways(world, r.yposition, this.yposition, r.xposition);
+            } else {
+                verticalHallways(world, this.yposition, r.yposition, r.xposition);
+            }
         }
     }
 }
