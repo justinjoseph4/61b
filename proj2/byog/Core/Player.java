@@ -3,6 +3,8 @@ import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
 import edu.princeton.cs.introcs.StdDraw;
+
+import java.awt.*;
 import java.util.Random;
 
 //Class for the player
@@ -60,9 +62,52 @@ public class Player {
         return Tileset.FIRE;
     }
 
+    //draws the position of the mouse
+    private void drawFrame(String s) {
+        Font font = new Font("Arial", Font.BOLD, 20);
+        StdDraw.setFont(font);
+        StdDraw.setPenRadius(1);
+        StdDraw.setPenColor(Color.WHITE);
+        StdDraw.text(3, 30, s);
+        StdDraw.show();
+
+    }
+
+    //checks mouse position
+    private void checkPosition() {
+        double xx = StdDraw.mouseX();
+        double yy = StdDraw.mouseY();
+        int x = (int) xx;
+        int y = (int) yy;
+        if(world[x][y] == Tileset.FLOOR) {
+            drawFrame("Floor");
+
+        }
+        if(world[x][y] == Tileset.WALL) {
+            drawFrame("Wall");
+        }
+        if(world[x][y] == Tileset.LOCKED_DOOR) {
+            drawFrame("Locked Door");
+        }
+        if(world[x][y] == Tileset.FIRE) {
+            drawFrame("Fire");
+        }
+        if(world[x][y] == Tileset.PLAYER) {
+            drawFrame("Player");
+        }
+        if(world[x][y] == Tileset.KEY) {
+            drawFrame("Key");
+        }
+        if(world[x][y] == Tileset.NOTHING) {
+            drawFrame("Nothing");
+        }
+    }
+
+
     //moves the player in all direction in the world
     public void movePlayer(TERenderer ter) {
         while(!gameOver) {
+            checkPosition(); //checks the position of the mouse as the game is going on
             ter.renderFrame(world);
             while(StdDraw.hasNextKeyTyped()) {
                 char character = StdDraw.nextKeyTyped();
@@ -124,11 +169,5 @@ public class Player {
             }
         }
     }
-
-
-
-
-
-
 }
 
