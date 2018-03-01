@@ -3,17 +3,20 @@ import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
 import edu.princeton.cs.introcs.StdDraw;
+import java.util.Random;
 
 //Class for the player
 public class Player {
     int xpos;
     int ypos;
     TETile[][] world;
+    Random random;
     boolean gameOver = false;
     boolean key = false;
 
     //Constructor for the player object
-    public Player(int x, int y, TETile[][] w) {
+    public Player(int x, int y, TETile[][] w, Random r) {
+        random = r;
         this.xpos = x;
         this.ypos = y;
         world = w;
@@ -23,29 +26,38 @@ public class Player {
     //Moves player up
     private void moveUp() {
         world[xpos][ypos+1] = Tileset.PLAYER;
-        world[xpos][ypos] = Tileset.FLOOR;
+        world[xpos][ypos] = floor();
         this.ypos += 1;
     }
 
     //Moves player left
     private void moveLeft() {
         world[xpos-1][ypos] = Tileset.PLAYER;
-        world[xpos][ypos] = Tileset.FLOOR;
+        world[xpos][ypos] = floor();
         this.xpos -= 1;
     }
 
     //Moves player right
     private void moveRight() {
         world[xpos + 1][ypos] = Tileset.PLAYER;
-        world[xpos][ypos] = Tileset.FLOOR;
+        world[xpos][ypos] = floor();
         this.xpos += 1;
     }
 
     //Moves player down
     private void moveDown() {
         world[xpos][ypos - 1] = Tileset.PLAYER;
-        world[xpos][ypos] = Tileset.FLOOR;
+        world[xpos][ypos] = floor();
         this.ypos -= 1;
+    }
+
+    //helper methods that returns a floor or fire randomly
+    private TETile floor() {
+        int r = RandomUtils.uniform(random, 0, 20);
+        if(r%2 == 0) {
+            return Tileset.FLOOR;
+        }
+        return Tileset.FIRE;
     }
 
     //moves the player in all direction in the world
@@ -60,9 +72,13 @@ public class Player {
                         moveUp();
 
                     }
-                    if(world[xpos][ypos] == Tileset.KEY) {
+                    if(world[xpos][ypos+1] == Tileset.KEY) {
                         this.key = true;
                         moveUp();
+                    }
+                    if(world[xpos][ypos + 1] == Tileset.LOCKED_DOOR && this.key) {
+                        moveUp();
+                        this.gameOver = true;
                     }
                 }
                 if(let.equals("a")) {
@@ -73,6 +89,10 @@ public class Player {
                         this.key = true;
                         moveLeft();
                     }
+                    if(world[xpos - 1][ypos] == Tileset.LOCKED_DOOR && this.key) {
+                        moveLeft();
+                        this.gameOver = true;
+                    }
                 }
                 if(let.equals("d")) {
                     if(world[xpos + 1][ypos] == Tileset.FLOOR) {
@@ -81,6 +101,10 @@ public class Player {
                     if(world[xpos + 1][ypos] == Tileset.KEY) {
                         this.key = true;
                         moveRight();
+                    }
+                    if(world[xpos + 1][ypos] == Tileset.LOCKED_DOOR && this.key) {
+                        moveRight();
+                        this.gameOver = true;
                     }
                 }
                 if(let.equals("s")) {
@@ -91,6 +115,10 @@ public class Player {
                     if(world[xpos][ypos - 1] == Tileset.KEY) {
                         this.key = true;
                         moveDown();
+                    }
+                    if(world[xpos][ypos - 1] == Tileset.LOCKED_DOOR && this.key) {
+                        moveDown();
+                        this.gameOver = true;
                     }
                 }
             }

@@ -1,5 +1,7 @@
 package byog.TileEngine;
 
+import org.junit.Test;
+
 import java.awt.Color;
 
 /**
@@ -34,6 +36,7 @@ public class Tileset {
     public static final TETile MOUNTAIN = new TETile('▲', Color.gray, Color.black, "mountain");
     public static final TETile TREE = new TETile('♠', Color.green, Color.black, "tree");
     public static final TETile KEY = new TETile('!', Color.yellow, Color.black, "key");
+    public static final TETile FIRE = new TETile('*', Color.red, Color.black, "fire");
 }
 
 

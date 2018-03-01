@@ -38,8 +38,9 @@ public class Big {
     }
 
     //makes a door in the first room
+
     private void door() {
-        Room r = rooms[rooms.length - 1];
+        Room r = rooms[rooms.length - 2];
         int s = r.xposition;
         int t = r.y2;
         checkForWall(s, t);
@@ -79,7 +80,6 @@ public class Big {
     public void constructWalls() {
         topBottomWalls();
         leftRightWalls();
-
     }
 
     //helper method to construct top and bottom part of the walls
@@ -133,7 +133,7 @@ public class Big {
 
     //move the player
     public void player(TERenderer ter) {
-        Player p = new Player(rooms[0].xposition, rooms[0].yposition, world);
+        Player p = new Player(rooms[0].xposition, rooms[0].yposition, world, random);
         p.movePlayer(ter);
     }
 }

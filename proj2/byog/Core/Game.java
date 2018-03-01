@@ -61,4 +61,36 @@ public class Game {
     }
 }
 
+    /*
+<<<<<<< HEAD
+
+    public static void main(String[] args) {
+        TERenderer ter = new TERenderer();
+        ter.initialize(80, 60);
+        String input = "N6344734423n";
+        TETile[][] finalWorldFrame = new TETile[80][60];
+
+
+
+        char[] seed = input.toCharArray();
+        char option1 = seed[0];
+        char option2 = seed[seed.length - 1];
+
+        char[] trueseed = new char[seed.length - 2];
+        System.arraycopy(seed,1,trueseed,0,seed.length-2);
+        String numseed = new String(trueseed);
+
+        Long put = Long.parseLong(numseed);
+        Random random = new Random(put);    //save the seed into a random
+        Big world = new Big(finalWorldFrame, random, 80, 60);
+        world.constructWorld(); //constructs the world with rooms, hallways, and walls
+        ter.renderFrame(finalWorldFrame);
+        int jj = 5 + 5;
+
+
+    }
+=======
+>>>>>>> cda413f1c8c63587bc83917f58c07d7d30e85390
+} */
+
 
