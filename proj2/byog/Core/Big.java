@@ -31,19 +31,30 @@ public class Big {
         if (world[x][y] == Tileset.WALL) {
             world[x][y] = Tileset.LOCKED_DOOR;
         }
+        else if(world[x][y+1] == Tileset.WALL) {
+            world[x][y+1] = Tileset.LOCKED_DOOR;
+        }
+        else if(world[x][y-1] == Tileset.WALL) {
+            world[x][y-1] = Tileset.LOCKED_DOOR;
+        }
+        else if(world[x+1][y] == Tileset.WALL) {
+            world[x+1][y] = Tileset.LOCKED_DOOR;
+        }
+        else if(world[x-1][y] == Tileset.WALL) {
+            world[x-1][y] = Tileset.LOCKED_DOOR;
+        }
         else {
-            y +=1 ;
-            checkForWall(x, y);
+            checkForWall(x + 1, y+ 1);
         }
     }
 
     //makes a door in the first room
 
     private void door() {
-        Room r = rooms[rooms.length - 2];
+        Room r = rooms[rooms.length -3];
         int s = r.xposition;
         int t = r.y2;
-        checkForWall(s, t);
+        checkForWall(1, 1);
     }
 
 

@@ -52,7 +52,7 @@ public class Game {
 
 
         world.player(ter);
-        //ter.renderFrame(finalWorldFrame);
+        ter.renderFrame(finalWorldFrame);
 
 
 

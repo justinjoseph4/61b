@@ -68,7 +68,7 @@ public class Player {
         StdDraw.setFont(font);
         StdDraw.setPenRadius(1);
         StdDraw.setPenColor(Color.WHITE);
-        StdDraw.text(3, 30, s);
+        StdDraw.text(6, 30, s);
         StdDraw.show();
 
     }
