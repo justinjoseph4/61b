@@ -5,10 +5,11 @@ import byog.TileEngine.Tileset;
 import edu.princeton.cs.introcs.StdDraw;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.Random;
 
 //Class for the player
-public class Player {
+public class Player implements Serializable {
     int xpos;
     int ypos;
     TETile[][] world;
@@ -63,12 +64,12 @@ public class Player {
     }
 
     //draws the position of the mouse
-    private void drawFrame(String s) {
+    private void drawFrame(int x,int y,String s) {
         Font font = new Font("Arial", Font.BOLD, 20);
         StdDraw.setFont(font);
         StdDraw.setPenRadius(1);
         StdDraw.setPenColor(Color.WHITE);
-        StdDraw.text(6, 30, s);
+        StdDraw.text(x, y, s);
         StdDraw.show();
 
     }
@@ -80,34 +81,46 @@ public class Player {
         int x = (int) xx;
         int y = (int) yy;
         if(world[x][y] == Tileset.FLOOR) {
-            drawFrame("Floor");
+            drawFrame(6, 30,"Floor");
 
         }
         if(world[x][y] == Tileset.WALL) {
-            drawFrame("Wall");
+            drawFrame(6, 30, "Wall");
         }
         if(world[x][y] == Tileset.LOCKED_DOOR) {
-            drawFrame("Locked Door");
+            drawFrame(6,30,"Locked Door");
         }
         if(world[x][y] == Tileset.FIRE) {
-            drawFrame("Fire");
+            drawFrame(6,30,"Fire");
         }
         if(world[x][y] == Tileset.PLAYER) {
-            drawFrame("Player");
+            drawFrame(6,30,"Player");
         }
         if(world[x][y] == Tileset.KEY) {
-            drawFrame("Key");
+            drawFrame(6,30,"Key");
         }
         if(world[x][y] == Tileset.NOTHING) {
-            drawFrame("Nothing");
+            drawFrame(6, 30,"Nothing");
         }
     }
+
+    //the status of the key
+    private void keyStatus() {
+        if(this.key) {
+            drawFrame(40, 30, "Key : Yes");
+        }
+        if(!this.key){
+            drawFrame(40, 30, "Key : No");
+        }
+    }
+
 
 
     //moves the player in all direction in the world
     public void movePlayer(TERenderer ter) {
         while(!gameOver) {
             checkPosition(); //checks the position of the mouse as the game is going on
+            keyStatus();
             ter.renderFrame(world);
             while(StdDraw.hasNextKeyTyped()) {
                 char character = StdDraw.nextKeyTyped();

@@ -13,7 +13,10 @@ public class Big {
     int numberOfRooms;
     int worldWidth;
     int worldHieght;
+    Player p;
     Random random;
+    long seed;
+    Monster[] monsters;
 
     //Constructor for the big world
     public Big(TETile[][] world, Random random, int x, int y) {
@@ -34,14 +37,14 @@ public class Big {
         else if(world[x][y+1] == Tileset.WALL) {
             world[x][y+1] = Tileset.LOCKED_DOOR;
         }
-        else if(world[x][y-1] == Tileset.WALL) {
-            world[x][y-1] = Tileset.LOCKED_DOOR;
+        else if(world[x][y+2] == Tileset.WALL) {
+            world[x][y+2] = Tileset.LOCKED_DOOR;
         }
         else if(world[x+1][y] == Tileset.WALL) {
             world[x+1][y] = Tileset.LOCKED_DOOR;
         }
-        else if(world[x-1][y] == Tileset.WALL) {
-            world[x-1][y] = Tileset.LOCKED_DOOR;
+        else if(world[x+2][y] == Tileset.WALL) {
+            world[x+2][y] = Tileset.LOCKED_DOOR;
         }
         else {
             checkForWall(x + 1, y+ 1);
@@ -125,6 +128,18 @@ public class Big {
         world[r.xposition][r.yposition] = Tileset.KEY;
     }
 
+    private void addMonsters( int n) {
+        Monster[] list = new Monster[n];
+        String[]  directions = new String[]{"up","down","right","left"};
+        for (int i = 0; i < n; i ++) {
+            String direction = directions[random.nextInt(4)];
+            list[i] = new Monster(rooms[i+1].xposition,rooms[i+1].yposition,world,direction);
+        }
+        this.monsters = list;
+
+    }
+
+
 
     //constructs rooms, hallways, and walls in the world
     public void constructWorld() {
@@ -136,6 +151,7 @@ public class Big {
         constructRooms();
         constructHallways();
         constructWalls();
+        addMonsters(numberOfRooms / 2);
         door();
         keyPlacer();
 
