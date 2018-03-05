@@ -6,6 +6,7 @@ import edu.princeton.cs.introcs.StdDraw;
 
 import java.awt.*;
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.Random;
 
 //Class for the player
@@ -64,14 +65,22 @@ public class Player implements Serializable {
     }
 
     //draws the position of the mouse
-    private void drawFrame(int x,int y,String s) {
-        Font font = new Font("Arial", Font.BOLD, 20);
+    private void drawFrame(int x,int y, int size,String s) {
+        Font font = new Font("Arial", Font.BOLD, size);
         StdDraw.setFont(font);
         StdDraw.setPenRadius(1);
         StdDraw.setPenColor(Color.WHITE);
         StdDraw.text(x, y, s);
         StdDraw.show();
 
+    }
+
+    private void mousePosition() {
+        try {
+            checkPosition();
+        } catch (ArrayIndexOutOfBoundsException e) {
+            drawFrame(6, 30, 20, "");
+        }
     }
 
     //checks mouse position
@@ -81,45 +90,58 @@ public class Player implements Serializable {
         int x = (int) xx;
         int y = (int) yy;
         if(world[x][y] == Tileset.FLOOR) {
-            drawFrame(6, 30,"Floor");
+            drawFrame(6, 30, 20,"Floor");
 
         }
         if(world[x][y] == Tileset.WALL) {
-            drawFrame(6, 30, "Wall");
+            drawFrame(6, 30, 20, "Wall");
         }
         if(world[x][y] == Tileset.LOCKED_DOOR) {
-            drawFrame(6,30,"Locked Door");
+            drawFrame(6,30, 20,"Locked Door");
         }
         if(world[x][y] == Tileset.FIRE) {
-            drawFrame(6,30,"Fire");
+            drawFrame(6,30,20,"Fire");
         }
         if(world[x][y] == Tileset.PLAYER) {
-            drawFrame(6,30,"Player");
+            drawFrame(6,30,20,"Player");
         }
         if(world[x][y] == Tileset.KEY) {
-            drawFrame(6,30,"Key");
+            drawFrame(6,30,20,"Key");
         }
         if(world[x][y] == Tileset.NOTHING) {
-            drawFrame(6, 30,"Nothing");
+            drawFrame(6, 30,20,"Nothing");
         }
     }
 
     //the status of the key
     private void keyStatus() {
         if(this.key) {
-            drawFrame(40, 30, "Key : Yes");
+            drawFrame(40, 30, 20,"Key : Yes");
         }
         if(!this.key){
-            drawFrame(40, 30, "Key : No");
+            drawFrame(40, 30, 20,"Key : No");
         }
     }
+
+    //Game Winning screen
+    private void gameWining() {
+        StdDraw.clear(Color.BLACK);
+        drawFrame(40, 15, 40, "You Win!!");
+    }
+
+    //Game Losing screen
+    private  void gameLosing() {
+        StdDraw.clear(Color.BLACK);
+        drawFrame(40, 15, 40, "You Lose :(");
+    }
+
 
 
 
     //moves the player in all direction in the world
     public void movePlayer(TERenderer ter) {
         while(!gameOver) {
-            checkPosition(); //checks the position of the mouse as the game is going on
+            mousePosition(); //checks the position of the mouse as the game is going on
             keyStatus();
             ter.renderFrame(world);
             while(StdDraw.hasNextKeyTyped()) {
@@ -137,6 +159,7 @@ public class Player implements Serializable {
                     if(world[xpos][ypos + 1] == Tileset.LOCKED_DOOR && this.key) {
                         moveUp();
                         this.gameOver = true;
+                        gameWining();
                     }
                 }
                 if(let.equals("a")) {
@@ -150,6 +173,7 @@ public class Player implements Serializable {
                     if(world[xpos - 1][ypos] == Tileset.LOCKED_DOOR && this.key) {
                         moveLeft();
                         this.gameOver = true;
+                        gameWining();
                     }
                 }
                 if(let.equals("d")) {
@@ -163,6 +187,7 @@ public class Player implements Serializable {
                     if(world[xpos + 1][ypos] == Tileset.LOCKED_DOOR && this.key) {
                         moveRight();
                         this.gameOver = true;
+                        gameWining();
                     }
                 }
                 if(let.equals("s")) {
@@ -177,6 +202,7 @@ public class Player implements Serializable {
                     if(world[xpos][ypos - 1] == Tileset.LOCKED_DOOR && this.key) {
                         moveDown();
                         this.gameOver = true;
+                        gameWining();
                     }
                 }
             }

@@ -20,7 +20,7 @@ public class Game implements Serializable {
      * Method used for playing a fresh game. The game should start from the main menu.
      */
     public void playWithKeyboard() {
-        ter.initialize(WIDTH, HEIGHT + 2);
+        /*ter.initialize(WIDTH, HEIGHT + 2);
 
         TETile[][] finalWorldFrame = new TETile[WIDTH][HEIGHT];
 
@@ -36,9 +36,7 @@ public class Game implements Serializable {
 
 
         world.player(ter);
-        ter.renderFrame(finalWorldFrame);
-
-
+        ter.renderFrame(finalWorldFrame);*/
 
 
         //return finalWorldFrame;
@@ -62,7 +60,27 @@ public class Game implements Serializable {
         // and return a 2D tile representation of the world that would have been
         // drawn if the same inputs had been given to playWithKeyboard().
 
-        String numseed = "";
+        ter.initialize(WIDTH, HEIGHT + 2);
+
+        TETile[][] finalWorldFrame = new TETile[WIDTH][HEIGHT];
+
+        char[] seed = input.toCharArray();
+        char[] trueseed = new char[seed.length - 2];
+        System.arraycopy(seed, 1, trueseed, 0, seed.length - 2);
+        String peach = new String(trueseed);
+
+        Long put = Long.parseLong(peach);
+        Random random = new Random(put);    //save the seed into a random
+        Big world = new Big(finalWorldFrame, random, WIDTH, HEIGHT);
+        world.constructWorld(); //constructs the world with rooms, hallways, and walls
+
+
+        world.player(ter);
+        ter.renderFrame(finalWorldFrame);
+
+
+        return finalWorldFrame;
+        /*String numseed = "";
         String instructions = "";
 
         for (int i = 0; i < input.length(); i ++) {
@@ -187,6 +205,9 @@ public class Game implements Serializable {
 
         Game game = new Game();
         game.playWithInputString(input);
-    }
+    }*/
 
+
+    }
 }
+
