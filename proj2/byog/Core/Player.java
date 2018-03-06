@@ -8,6 +8,10 @@ import java.awt.*;
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.Random;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
+import java.io.IOException;
+
 
 //Class for the player
 public class Player implements Serializable {
@@ -17,9 +21,11 @@ public class Player implements Serializable {
     Random random;
     boolean gameOver = false;
     boolean key = false;
+    Big object;
 
     //Constructor for the player object
-    public Player(int x, int y, TETile[][] w, Random r) {
+    public Player(int x, int y, TETile[][] w, Random r, Big object) {
+        this.object = object;
         random = r;
         this.xpos = x;
         this.ypos = y;
@@ -145,14 +151,16 @@ public class Player implements Serializable {
             keyStatus();
             ter.renderFrame(world);
             while(StdDraw.hasNextKeyTyped()) {
+                ter.renderFrame(world);
+                System.out.print(world[object.p.xpos][object.p.ypos] == Tileset.PLAYER);
                 char character = StdDraw.nextKeyTyped();
                 String let = String.valueOf(character);
                 if(let.equals("w")) {
-                    if(world[xpos][ypos+1] == Tileset.FLOOR) {
+                    if(world[xpos][ypos+1].equals(Tileset.FLOOR)) {
                         moveUp();
 
                     }
-                    if(world[xpos][ypos+1] == Tileset.KEY) {
+                    if(object.world[xpos][ypos+1] == Tileset.KEY) {
                         this.key = true;
                         moveUp();
                     }
@@ -163,10 +171,10 @@ public class Player implements Serializable {
                     }
                 }
                 if(let.equals("a")) {
-                    if(world[xpos-1][ypos] == Tileset.FLOOR) {
+                    if(object.world[xpos-1][ypos].equals(Tileset.FLOOR)) {
                         moveLeft();
                     }
-                    if(world[xpos - 1][ypos] == Tileset.KEY) {
+                    if(object.world[xpos - 1][ypos] == Tileset.KEY) {
                         this.key = true;
                         moveLeft();
                     }
@@ -177,7 +185,9 @@ public class Player implements Serializable {
                     }
                 }
                 if(let.equals("d")) {
-                    if(world[xpos + 1][ypos] == Tileset.FLOOR) {
+                    System.out.print(6);
+                    if(world[xpos + 1][ypos].equals(Tileset.FLOOR)) {
+                        System.out.print("HERE");
                        moveRight();
                     }
                     if(world[xpos + 1][ypos] == Tileset.KEY) {
@@ -205,8 +215,34 @@ public class Player implements Serializable {
                         gameWining();
                     }
                 }
+                if(let.equals("q")) {
+                        try {
+                            FileOutputStream file = new FileOutputStream("mygame.data");
+
+                            ObjectOutputStream out = new ObjectOutputStream(file);
+
+                            boolean j = (object instanceof Big);
+                            System.out.println(j);
+
+
+                            out.writeObject(object);
+                            out.close();
+                            file.close();
+                        } catch (IOException err1) {
+                            System.out.println("IOException is caught");
+                        }
+                        System.out.print(object.p.xpos);
+                        System.out.print(object.p.ypos);
+
+                        return;
+                    }
+                        }
+                    }
+
+
+                }
+
+
             }
-        }
-    }
-}
+
 

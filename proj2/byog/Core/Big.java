@@ -4,10 +4,13 @@ package byog.Core;
 import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
+import edu.princeton.cs.introcs.StdDraw;
 
+import java.awt.*;
+import java.io.Serializable;
 import java.util.Random;
 
-public class Big {
+public class Big implements Serializable{
     TETile[][] world;
     Room[] rooms;
     int numberOfRooms;
@@ -139,6 +142,35 @@ public class Big {
 
     }
 
+    private void drawFrame(int x,int y, int size,String s) {
+        Font font = new Font("Arial", Font.BOLD, size);
+        StdDraw.setFont(font);
+        StdDraw.setPenRadius(1);
+        StdDraw.setPenColor(Color.WHITE);
+        StdDraw.text(x, y, s);
+        StdDraw.show();
+
+    }
+
+    //Opening screen
+    public void initalize() {
+        drawFrame(40, 25, 30, "CS61B: The Game");
+        drawFrame(40, 15, 20, "New Game (n)");
+        drawFrame(40, 12, 20, "Load Game (l)");
+        drawFrame(40, 10, 20, "Quit (q)");
+        int i = 0;
+        while (i < 1) {
+            while(StdDraw.hasNextKeyTyped()) {
+                char character = StdDraw.nextKeyTyped();
+                String let = String.valueOf(character);
+
+
+            }
+
+        }
+
+    }
+
 
 
     //constructs rooms, hallways, and walls in the world
@@ -160,7 +192,6 @@ public class Big {
 
     //move the player
     public void player(TERenderer ter) {
-        Player p = new Player(rooms[0].xposition, rooms[0].yposition, world, random);
         p.movePlayer(ter);
     }
 }
