@@ -95,26 +95,26 @@ public class Player implements Serializable {
         double yy = StdDraw.mouseY();
         int x = (int) xx;
         int y = (int) yy;
-        if(world[x][y] == Tileset.FLOOR) {
+        if(world[x][y].description().equals(Tileset.FLOOR.description())) {
             drawFrame(6, 30, 20,"Floor");
 
         }
-        if(world[x][y] == Tileset.WALL) {
+        if(world[x][y].description().equals(Tileset.WALL.description())) {
             drawFrame(6, 30, 20, "Wall");
         }
-        if(world[x][y] == Tileset.LOCKED_DOOR) {
+        if(world[x][y].description().equals(Tileset.LOCKED_DOOR.description())) {
             drawFrame(6,30, 20,"Locked Door");
         }
-        if(world[x][y] == Tileset.FIRE) {
+        if(world[x][y].description().equals(Tileset.FIRE.description())) {
             drawFrame(6,30,20,"Fire");
         }
-        if(world[x][y] == Tileset.PLAYER) {
+        if(world[x][y].description().equals(Tileset.PLAYER.description())) {
             drawFrame(6,30,20,"Player");
         }
-        if(world[x][y] == Tileset.KEY) {
+        if(world[x][y].description().equals(Tileset.KEY.description())) {
             drawFrame(6,30,20,"Key");
         }
-        if(world[x][y] == Tileset.NOTHING) {
+        if(world[x][y].description().equals(Tileset.NOTHING.description())) {
             drawFrame(6, 30,20,"Nothing");
         }
     }
@@ -123,6 +123,7 @@ public class Player implements Serializable {
     private void keyStatus() {
         if(this.key) {
             drawFrame(40, 30, 20,"Key : Yes");
+
         }
         if(!this.key){
             drawFrame(40, 30, 20,"Key : No");
@@ -152,97 +153,84 @@ public class Player implements Serializable {
             ter.renderFrame(world);
             while(StdDraw.hasNextKeyTyped()) {
                 ter.renderFrame(world);
-                System.out.print(world[object.p.xpos][object.p.ypos] == Tileset.PLAYER);
                 char character = StdDraw.nextKeyTyped();
                 String let = String.valueOf(character);
                 if(let.equals("w")) {
-                    if(world[xpos][ypos+1].equals(Tileset.FLOOR)) {
+                    if(world[xpos][ypos+1].description().equals(Tileset.FLOOR.description())) {
                         moveUp();
 
                     }
-                    if(object.world[xpos][ypos+1] == Tileset.KEY) {
+                    if(world[xpos][ypos+1].description().equals(Tileset.KEY.description())) {
                         this.key = true;
                         moveUp();
                     }
-                    if(world[xpos][ypos + 1] == Tileset.LOCKED_DOOR && this.key) {
+                    if(world[xpos][ypos + 1].description().equals(Tileset.LOCKED_DOOR.description()) && this.key) {
                         moveUp();
                         this.gameOver = true;
                         gameWining();
                     }
                 }
                 if(let.equals("a")) {
-                    if(object.world[xpos-1][ypos].equals(Tileset.FLOOR)) {
+                    if(world[xpos-1][ypos].description().equals(Tileset.FLOOR.description())) {
                         moveLeft();
                     }
-                    if(object.world[xpos - 1][ypos] == Tileset.KEY) {
+                    if(world[xpos - 1][ypos].description().equals(Tileset.KEY.description())) {
                         this.key = true;
                         moveLeft();
                     }
-                    if(world[xpos - 1][ypos] == Tileset.LOCKED_DOOR && this.key) {
+                    if(world[xpos - 1][ypos].description().equals(Tileset.LOCKED_DOOR.description()) && this.key) {
                         moveLeft();
                         this.gameOver = true;
                         gameWining();
                     }
                 }
                 if(let.equals("d")) {
-                    System.out.print(6);
-                    if(world[xpos + 1][ypos].equals(Tileset.FLOOR)) {
-                        System.out.print("HERE");
+                    if(world[xpos + 1][ypos].description().equals(Tileset.FLOOR.description())) {
                        moveRight();
                     }
-                    if(world[xpos + 1][ypos] == Tileset.KEY) {
+                    if(world[xpos + 1][ypos].description().equals(Tileset.KEY.description())) {
                         this.key = true;
                         moveRight();
                     }
-                    if(world[xpos + 1][ypos] == Tileset.LOCKED_DOOR && this.key) {
+                    if(world[xpos + 1][ypos].description().equals(Tileset.LOCKED_DOOR.description()) && this.key) {
                         moveRight();
                         this.gameOver = true;
                         gameWining();
                     }
                 }
                 if(let.equals("s")) {
-                    if(world[xpos][ypos - 1] == Tileset.FLOOR) {
+                    if(world[xpos][ypos - 1].description().equals(Tileset.FLOOR.description())) {
                         moveDown();
 
                     }
-                    if(world[xpos][ypos - 1] == Tileset.KEY) {
+                    if(world[xpos][ypos - 1].description().equals(Tileset.KEY.description())) {
                         this.key = true;
                         moveDown();
                     }
-                    if(world[xpos][ypos - 1] == Tileset.LOCKED_DOOR && this.key) {
+                    if(world[xpos][ypos - 1].description().equals(Tileset.LOCKED_DOOR.description()) && this.key) {
                         moveDown();
                         this.gameOver = true;
                         gameWining();
                     }
                 }
                 if(let.equals("q")) {
-                        try {
-                            FileOutputStream file = new FileOutputStream("mygame.data");
+                    try {
+                        FileOutputStream file = new FileOutputStream("mygame.data");
 
-                            ObjectOutputStream out = new ObjectOutputStream(file);
+                        ObjectOutputStream out = new ObjectOutputStream(file);
 
-                            boolean j = (object instanceof Big);
-                            System.out.println(j);
-
-
-                            out.writeObject(object);
-                            out.close();
-                            file.close();
-                        } catch (IOException err1) {
-                            System.out.println("IOException is caught");
-                        }
-                        System.out.print(object.p.xpos);
-                        System.out.print(object.p.ypos);
-
-                        return;
-                    }
-                        }
+                        out.writeObject(object);
+                        out.close();
+                        file.close();
+                    } catch (IOException err1) {
+                        System.out.println("IOException is caught");
                     }
 
-
+                    return;
                 }
-
-
             }
+        }
+    }
+}
 
 

@@ -29,8 +29,12 @@ public class Big implements Serializable{
         this.world = world;
         worldWidth = x;
         worldHieght = y;
+        //int xxx = rooms[0].xposition;
+        //p = new Player(rooms[0].xposition, rooms[0].yposition, world, random);
 
     }
+
+
 
     //helper method
     private void checkForWall (int x, int y) {
@@ -142,36 +146,13 @@ public class Big implements Serializable{
 
     }
 
-    private void drawFrame(int x,int y, int size,String s) {
-        Font font = new Font("Arial", Font.BOLD, size);
-        StdDraw.setFont(font);
-        StdDraw.setPenRadius(1);
-        StdDraw.setPenColor(Color.WHITE);
-        StdDraw.text(x, y, s);
-        StdDraw.show();
-
-    }
-
-    //Opening screen
-    public void initalize() {
-        drawFrame(40, 25, 30, "CS61B: The Game");
-        drawFrame(40, 15, 20, "New Game (n)");
-        drawFrame(40, 12, 20, "Load Game (l)");
-        drawFrame(40, 10, 20, "Quit (q)");
-        int i = 0;
-        while (i < 1) {
-            while(StdDraw.hasNextKeyTyped()) {
-                char character = StdDraw.nextKeyTyped();
-                String let = String.valueOf(character);
-
-
-            }
-
+    public TETile floor() {
+        int r = RandomUtils.uniform(random, 0, 20);
+        if(r%2 == 0) {
+            return Tileset.FLOOR;
         }
-
+        return Tileset.FIRE;
     }
-
-
 
     //constructs rooms, hallways, and walls in the world
     public void constructWorld() {
@@ -188,7 +169,6 @@ public class Big implements Serializable{
         keyPlacer();
 
     }
-
 
     //move the player
     public void player(TERenderer ter) {

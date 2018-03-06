@@ -11,7 +11,7 @@ import java.awt.*;
 import java.io.*;
 import java.util.Random;
 
-public class Game implements Serializable {
+public class Game {
     TERenderer ter = new TERenderer();
     /* Feel free to change the width and height. */
     public static final int WIDTH = 80;
@@ -21,7 +21,7 @@ public class Game implements Serializable {
     /**
      * Method used for playing a fresh game. The game should start from the main menu.
      */
-
+    //Draws game opening screen
     private void drawFrame(int x,int y,int size, String s) {
         Font font = new Font("Arial", Font.BOLD, size);
         StdDraw.setFont(font);
@@ -32,7 +32,7 @@ public class Game implements Serializable {
     }
 
 
-    //Screen waits for a seed
+    //Screen waits for a seed and converts number typed into a string
     private String seedFrame() {
         int i = 0;
         int x = 40;
@@ -49,8 +49,6 @@ public class Game implements Serializable {
                     StdDraw.setPenColor(Color.RED);
                     StdDraw.text(x, 20, l);
                     StdDraw.show();
-
-
                     x += 1;
 
                 }
@@ -67,18 +65,17 @@ public class Game implements Serializable {
 
     public void playWithKeyboard() {
         ter.initialize(WIDTH, HEIGHT + 1);
-        drawFrame(40, 25, 30, "CS61B: The Game");
-        drawFrame(40, 15, 20, "New Game (n)");
-        drawFrame(40, 12, 20, "Load Game (l)");
-        drawFrame(40, 10, 20, "Quit (q)");
+        drawFrame(40, 25, 45, "CS61B: The Game");
+        drawFrame(40, 15, 20, "New Game (N)");
+        drawFrame(40, 12, 20, "Load Game (L)");
+        drawFrame(40, 9, 20, "Quit (Q)");
         TETile[][] finalworld = new TETile[1][1];
-        Big big = new Big(finalworld, new Random(4), 1, 1);
+        //Big big = new Big(finalworld, new Random(4), 1, 1);
         int i = 0;
         while (i < 1) {
             while (StdDraw.hasNextKeyTyped()) {
                 char character = StdDraw.nextKeyTyped();
                 String let = String.valueOf(character);
-                System.out.println("Stop 0");
 
                 if (let.equals("n")) {
                     StdDraw.clear(Color.black);
@@ -88,6 +85,7 @@ public class Game implements Serializable {
                     TETile[][] finalWorldFrame = new TETile[WIDTH][HEIGHT];
                     Random random = new Random(sed);
                     Big object = new Big(finalWorldFrame, random, WIDTH, HEIGHT);
+
                     object.constructWorld();
                     object.p = new Player(object.rooms[0].xposition, object.rooms[0].yposition, object.world, random, object);
                     object.player(ter);
@@ -109,17 +107,19 @@ public class Game implements Serializable {
                         System.out.println("CLassNotFoundException");
 
                     }
-                    System.out.print(object1.p.xpos);
-                    System.out.print(object1.p.ypos);
-                    System.out.print(object1.world[44][17]== Tileset.PLAYER);
 
-                    ter.initialize(WIDTH,HEIGHT);
+
+                    ter.initialize(WIDTH,HEIGHT+1);
 
 
 
                     object1.player(ter);
                 }
+                if(let.equals("q")) {
+                    i += 1;
+                }
             }
+
         }
     }
 
