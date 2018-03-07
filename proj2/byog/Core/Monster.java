@@ -31,6 +31,10 @@ public class Monster implements Serializable {
                 ypos ++;
                 world[xpos][ypos] = Tileset.MONSTER;
             }
+            else if (world[xpos][ypos+1].description().equals(Tileset.MONSTER.description())) {
+                ypos += 1;
+                moveMonsters();
+            }
             else {
                 world[xpos][ypos] = Tileset.FLOOR;
                 ypos ++;
@@ -47,6 +51,10 @@ public class Monster implements Serializable {
                 world[xpos][ypos] = Tileset.FIRE;
                 ypos --;
                 world[xpos][ypos] = Tileset.MONSTER;
+            }
+            else if (world[xpos][ypos-1].description().equals(Tileset.MONSTER.description())) {
+                ypos -= 1;
+                moveMonsters();
             }
             else {
                 world[xpos][ypos] = Tileset.FLOOR;
@@ -66,6 +74,10 @@ public class Monster implements Serializable {
                 world[xpos][ypos] = Tileset.MONSTER;
 
             }
+            else if (world[xpos + 1][ypos].description().equals(Tileset.MONSTER.description())) {
+                xpos += 1;
+                moveMonsters();
+            }
             else {
                 world[xpos][ypos] = Tileset.FLOOR;
                 xpos ++;
@@ -82,6 +94,10 @@ public class Monster implements Serializable {
                 world[xpos][ypos] = Tileset.FIRE;
                 xpos --;
                 world[xpos][ypos] = Tileset.MONSTER;
+            }
+            else if (world[xpos-1][ypos].description().equals(Tileset.MONSTER.description())) {
+                xpos -= 1;
+                moveMonsters();
             }
             else {
                 world[xpos][ypos] = Tileset.FLOOR;
