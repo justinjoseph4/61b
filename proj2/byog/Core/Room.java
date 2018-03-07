@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.Random;
 
 public class Room implements Serializable{
+
     Random random;
     int xposition;
     int yposition;

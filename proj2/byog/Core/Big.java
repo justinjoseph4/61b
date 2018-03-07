@@ -4,9 +4,8 @@ package byog.Core;
 import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
-import edu.princeton.cs.introcs.StdDraw;
 
-import java.io.*;
+import java.io.Serializable;
 import java.util.Random;
 
 public class Big implements Serializable {
@@ -231,17 +230,6 @@ public class Big implements Serializable {
         constructHallways();
         constructWalls();
         addMonsters(numberOfRooms / 2);
-
-
-        for (int x = 0; x < world.length; x += 1) {
-            for (int y = 0; y < world[0].length; y += 1) {
-                if (world[x][y] == Tileset.NOTHING) {
-                    world[x][y] = Tileset.TREE;
-                }
-
-            }
-        }
-
 
         door();
         keyPlacer();

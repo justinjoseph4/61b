@@ -6,10 +6,17 @@ import byog.TileEngine.Tileset;
 import edu.princeton.cs.introcs.StdDraw;
 
 
-
-import java.awt.*;
-import java.io.*;
+import java.awt.Font;
+import java.awt.Color;
+import java.io.IOException;
+import java.io.FileOutputStream;
+import java.io.FileInputStream;
+import java.io.ObjectOutputStream;
+import java.io.ObjectInputStream;
 import java.util.Random;
+import java.io.File;
+import java.io.FileNotFoundException;
+
 
 public class Game {
     TERenderer ter = new TERenderer();
@@ -88,7 +95,7 @@ public class Game {
 
                     object.constructWorldKeyboard();
                     object.p = new Player(object.rooms[0].xposition, object.rooms[0].yposition, object.world, random, object);
-                    object.addMonsters(object.numberOfRooms/2);
+                    object.addMonsters(object.numberOfRooms / 2);
                     object.player(ter);
 
                 }
@@ -110,13 +117,12 @@ public class Game {
                     }
 
 
-                    ter.initialize(WIDTH,HEIGHT+1);
-
+                    ter.initialize(WIDTH, HEIGHT + 1);
 
 
                     object1.player(ter);
                 }
-                if(let.equals("q")) {
+                if (let.equals("q")) {
                     i += 1;
                 }
             }
@@ -158,12 +164,10 @@ public class Game {
         TETile[][] finalWorldFrame;
 
 
-
         if (instructions.charAt(0) == 'N' || instructions.charAt(0) == 'n') {
             Long put = Long.parseLong(numseed);
 
             Random random = new Random(put);
-
 
 
             finalWorldFrame = new TETile[WIDTH][HEIGHT];
@@ -171,7 +175,7 @@ public class Game {
             world.seed = put;
             world.constructWorld();
 
-            world.p = new Player(world.rooms[0].xposition, world.rooms[0].yposition, world.world,random,world);
+            world.p = new Player(world.rooms[0].xposition, world.rooms[0].yposition, world.world, random, world);
             world.addMonsters(1);
 
 
@@ -205,7 +209,7 @@ public class Game {
         //constructs the world with rooms, hallways, and walls
 
 
-        for (int i = 1; i < instructions.length() ; i++) {
+        for (int i = 1; i < instructions.length(); i++) {
             if ((instructions.charAt(i) == 'W' || instructions.charAt(i) == 'w') && finalWorldFrame[world.p.xpos][world.p.ypos + 1].description().equals(Tileset.FLOOR.description())) {
                 finalWorldFrame[world.p.xpos][world.p.ypos] = Tileset.FLOOR;
                 world.p.ypos++;
@@ -228,9 +232,6 @@ public class Game {
             }
 
 
-
-
-
             // Saves the world object in a file called mygame
             if (instructions.charAt(i) == ':') {
                 File f = new File("world.txt");
@@ -240,22 +241,21 @@ public class Game {
                     ObjectOutputStream os = new ObjectOutputStream(fs);
                     os.writeObject(world);
 
-                }  catch (FileNotFoundException e) {
+                } catch (FileNotFoundException e) {
                     System.out.println("file not found save");
 
                 } catch (IOException e) {
                     System.out.println(e);
 
                 }
-                if ( (instructions.charAt(i + 1) == 'Q') || instructions.charAt(i + 1) == 'q'  ) {
+                if ((instructions.charAt(i + 1) == 'Q') || instructions.charAt(i + 1) == 'q') {
                     break;
                 }
 
             }
-            if ( (instructions.charAt(i) == 'Q') || instructions.charAt(i) == 'q'  ) {
+            if ((instructions.charAt(i) == 'Q') || instructions.charAt(i) == 'q') {
                 break;
             }
-
 
 
             if (finalWorldFrame[world.p.xpos][world.p.ypos].description().equals(Tileset.MONSTER.description())) {
@@ -270,9 +270,6 @@ public class Game {
 
 
         }
-
-
-
 
 
         return finalWorldFrame;
