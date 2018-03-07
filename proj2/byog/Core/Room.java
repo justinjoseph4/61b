@@ -6,13 +6,13 @@ import byog.TileEngine.Tileset;
 import java.io.Serializable;
 import java.util.Random;
 
-public class Room implements Serializable{
+public class Room implements Serializable {
 
     Random random;
     int xposition;
     int yposition;
-    int x2;
-    int y2;
+    int xxposition2;
+    int yyposition22;
     int width;
     int length;
 
@@ -23,20 +23,21 @@ public class Room implements Serializable{
         yposition = ypos + 1;
         width = w;
         length = l;
-        x2 = xposition + w;
-        y2 = yposition + l;
+        xxposition2 = xposition + w;
+        yyposition22 = yposition + l;
 
     }
 
     //Check if a room overlaps any other room
     public void roomOverLap(Room[] r, int x, int worldWidth, int worldHieght) {
-        for( int i = 0; i < x; i++) {
-            if (r[i].xposition > this.xposition || this.x2 > r[i].x2 + 1
-                    && r[i].yposition > this.yposition || this.y2  > r[i].y2 + 1) {
+        for (int i = 0; i < x; i++) {
+            if (r[i].xposition > this.xposition || this.xxposition2 > r[i].xxposition2 + 1
+                    && r[i].yposition > this.yposition
+                    || this.yyposition22 > r[i].yyposition22 + 1) {
+                continue;
 
-            }
-            else {
-                this.length= RandomUtils.uniform(random, 3, 10);
+            } else {
+                this.length = RandomUtils.uniform(random, 3, 10);
                 this.width = RandomUtils.uniform(random, 3, 10);
                 this.xposition = RandomUtils.uniform(random, 1, worldWidth - 10);
                 this.yposition = RandomUtils.uniform(random, 1, worldHieght - 10);

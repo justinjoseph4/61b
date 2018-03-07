@@ -35,10 +35,10 @@ public class Big implements Serializable {
     }
 
     //helper method
-    private void checkForWall (int x, int y) {
+    private void checkForWall(int x, int y) {
 
         for (int i = 1; i < this.worldWidth; i++) {
-            for (int j = 1; j < this.worldHieght; j ++) {
+            for (int j = 1; j < this.worldHieght; j++) {
                 if (this.world[i][j].description().equals(Tileset.WALL.description())) {
                     this.world[i][j] = Tileset.LOCKED_DOOR;
                     return;
@@ -83,9 +83,9 @@ public class Big implements Serializable {
     //makes a door in the first room
 
     private void door() {
-        Room r = rooms[rooms.length -3];
+        Room r = rooms[rooms.length - 3];
         int s = r.xposition;
-        int t = r.y2;
+        int t = r.yyposition22;
         checkForWall(1, 1);
 
     }
@@ -126,7 +126,6 @@ public class Big implements Serializable {
         leftRightWalls();
 
 
-
         // door();
 
         //door();
@@ -161,16 +160,16 @@ public class Big implements Serializable {
 
     //Places a key in a random room
     public void keyPlacer() {
-        Room r = rooms[rooms.length/2];
+        Room r = rooms[rooms.length / 2];
         world[r.xposition + 1][r.yposition] = Tileset.KEY;
     }
 
-    public void addMonsters( int n) {
+    public void addMonsters(int n) {
         Monster[] list = new Monster[n];
-        String[]  directions = new String[]{"up","down","right","left"};
-        for (int i = 0; i < n; i ++) {
+        String[] directions = new String[]{"up", "down", "right", "left"};
+        for (int i = 0; i < n; i++) {
             String direction = directions[random.nextInt(4)];
-            list[i] = new Monster(rooms[i+1].xposition,rooms[i+1].yposition,world,direction);
+            list[i] = new Monster(rooms[i + 1].xposition, rooms[i + 1].yposition, world, direction);
         }
         this.monsters = list;
 
@@ -178,18 +177,11 @@ public class Big implements Serializable {
 
     public TETile floor() {
         int r = RandomUtils.uniform(random, 0, 20);
-        if(r%2 == 0) {
+        if (r % 2 == 0) {
             return Tileset.FLOOR;
         }
         return Tileset.FIRE;
     }
-
-
-
-
-
-
-
 
 
     //constructs rooms, hallways, and walls in the world
@@ -204,7 +196,6 @@ public class Big implements Serializable {
         constructWalls();
 
 
-
         for (int x = 0; x < world.length; x += 1) {
             for (int y = 0; y < world[0].length; y += 1) {
                 if (world[x][y] == Tileset.NOTHING) {
@@ -215,11 +206,11 @@ public class Big implements Serializable {
         }
 
 
-
         door();
         keyPlacer();
 
     }
+
     public void constructWorldKeyboard() {
         for (int x = 0; x < world.length; x += 1) {
             for (int y = 0; y < world[0].length; y += 1) {
@@ -235,7 +226,6 @@ public class Big implements Serializable {
         keyPlacer();
 
     }
-
 
 
     //move the player

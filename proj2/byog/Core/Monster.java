@@ -12,7 +12,7 @@ public class Monster implements Serializable {
     TETile[][] world;
 
     //class for monsters
-    public Monster(int x, int y, TETile[][] w,String move) {
+    public Monster(int x, int y, TETile[][] w, String move) {
         this.xpos = x;
         this.ypos = y;
         this.movement = move;
@@ -22,87 +22,75 @@ public class Monster implements Serializable {
 
     public void moveMonsters() {
         if (movement.equals("up")) {
-            if (world[xpos][ypos + 1].description().equals(Tileset.WALL.description()) ||
-                    world[xpos][ypos + 1].description().equals(Tileset.LOCKED_DOOR.description()) ||
-                    world[xpos][ypos + 1].description().equals(Tileset.KEY.description())) {
+            if (world[xpos][ypos + 1].description().equals(Tileset.WALL.description())
+                    || world[xpos][ypos + 1].description().equals(Tileset.LOCKED_DOOR.description())
+                    || world[xpos][ypos + 1].description().equals(Tileset.KEY.description())) {
                 movement = "down";
-            }
-            else if(world[xpos][ypos + 1].description().equals(Tileset.FIRE.description())) {
+            } else if (world[xpos][ypos + 1].description().equals(Tileset.FIRE.description())) {
                 world[xpos][ypos] = Tileset.FIRE;
-                ypos ++;
+                ypos++;
                 world[xpos][ypos] = Tileset.MONSTER;
-            }
-            else if (world[xpos][ypos+1].description().equals(Tileset.MONSTER.description())) {
+            } else if (world[xpos][ypos + 1].description().equals(Tileset.MONSTER.description())) {
                 ypos += 1;
                 moveMonsters();
-            }
-            else {
+            } else {
                 world[xpos][ypos] = Tileset.FLOOR;
-                ypos ++;
+                ypos++;
                 world[xpos][ypos] = Tileset.MONSTER;
             }
         }
         if (movement.equals("down")) {
-            if (world[xpos][ypos - 1].description().equals(Tileset.WALL.description()) ||
-                    world[xpos][ypos - 1].description().equals(Tileset.LOCKED_DOOR.description()) ||
-                    world[xpos][ypos - 1].description().equals(Tileset.KEY.description())) {
+            if (world[xpos][ypos - 1].description().equals(Tileset.WALL.description())
+                    || world[xpos][ypos - 1].description().equals(Tileset.LOCKED_DOOR.description())
+                    || world[xpos][ypos - 1].description().equals(Tileset.KEY.description())) {
                 movement = "up";
-            }
-            else if(world[xpos][ypos - 1].description().equals(Tileset.FIRE.description())) {
+            } else if (world[xpos][ypos - 1].description().equals(Tileset.FIRE.description())) {
                 world[xpos][ypos] = Tileset.FIRE;
-                ypos --;
+                ypos--;
                 world[xpos][ypos] = Tileset.MONSTER;
-            }
-            else if (world[xpos][ypos-1].description().equals(Tileset.MONSTER.description())) {
+            } else if (world[xpos][ypos - 1].description().equals(Tileset.MONSTER.description())) {
                 ypos -= 1;
                 moveMonsters();
-            }
-            else {
+            } else {
                 world[xpos][ypos] = Tileset.FLOOR;
-                ypos --;
+                ypos--;
                 world[xpos][ypos] = Tileset.MONSTER;
             }
         }
         if (movement.equals("right")) {
-            if (world[xpos + 1][ypos].description().equals(Tileset.WALL.description()) ||
-                    world[xpos + 1][ypos].description().equals(Tileset.LOCKED_DOOR.description()) ||
-                    world[xpos + 1][ypos].description().equals(Tileset.KEY.description())) {
+            if (world[xpos + 1][ypos].description().equals(Tileset.WALL.description())
+                    || world[xpos + 1][ypos].description().equals(Tileset.LOCKED_DOOR.description())
+                    || world[xpos + 1][ypos].description().equals(Tileset.KEY.description())) {
                 movement = "left";
-            }
-            else if(world[xpos + 1][ypos].description().equals(Tileset.FIRE.description())) {
+            } else if (world[xpos + 1][ypos].description().equals(Tileset.FIRE.description())) {
                 world[xpos][ypos] = Tileset.FIRE;
-                xpos ++;
+                xpos++;
                 world[xpos][ypos] = Tileset.MONSTER;
 
-            }
-            else if (world[xpos + 1][ypos].description().equals(Tileset.MONSTER.description())) {
+            } else if (world[xpos + 1][ypos].description().equals(Tileset.MONSTER.description())) {
                 xpos += 1;
                 moveMonsters();
-            }
-            else {
+            } else {
                 world[xpos][ypos] = Tileset.FLOOR;
-                xpos ++;
+                xpos++;
                 world[xpos][ypos] = Tileset.MONSTER;
             }
         }
         if (movement.equals("left")) {
-            if (world[xpos - 1][ypos].description().equals(Tileset.WALL.description()) ||
-                    world[xpos - 1][ypos].description().equals(Tileset.LOCKED_DOOR.description()) ||
-                    world[xpos - 1][ypos].description().equals(Tileset.KEY.description())) {
+            if (world[xpos - 1][ypos].description().equals(Tileset.WALL.description())
+                    || world[xpos - 1][ypos].description().equals(Tileset.LOCKED_DOOR.description())
+                    || world[xpos - 1][ypos].description().equals(Tileset.KEY.description())) {
                 movement = "right";
-            }
-            else if(world[xpos - 1][ypos].description().equals(Tileset.FIRE.description())) {
+            } else if (world[xpos - 1][ypos].description().equals(Tileset.FIRE.description())) {
                 world[xpos][ypos] = Tileset.FIRE;
-                xpos --;
+                xpos--;
                 world[xpos][ypos] = Tileset.MONSTER;
-            }
-            else if (world[xpos-1][ypos].description().equals(Tileset.MONSTER.description())) {
+            } else if (world[xpos - 1][ypos].description().equals(Tileset.MONSTER.description())) {
                 xpos -= 1;
                 moveMonsters();
-            }
-            else {
+            } else {
                 world[xpos][ypos] = Tileset.FLOOR;
-                xpos --;
+                xpos--;
                 world[xpos][ypos] = Tileset.MONSTER;
             }
         }

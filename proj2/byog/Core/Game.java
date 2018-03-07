@@ -92,15 +92,12 @@ public class Game {
                     TETile[][] finalWorldFrame = new TETile[WIDTH][HEIGHT];
                     Random random = new Random(sed);
                     Big object = new Big(finalWorldFrame, random, WIDTH, HEIGHT);
-
                     object.constructWorldKeyboard();
-                    object.p = new Player(object.rooms[0].xposition, object.rooms[0].yposition, object.world, random, object);
+                    object.p = new Player(object.rooms[0].xposition, object.rooms[0].
+                            yposition, object.world, random, object);
                     object.addMonsters(object.numberOfRooms / 2);
                     object.player(ter);
-
                 }
-
-
                 if (let.equals("l")) {
                     Big object1 = null;
                     try {
@@ -145,12 +142,88 @@ public class Game {
      * @return the 2D TETile[][] representing the state of the world
      */
     public TETile[][] playWithInputString(String input) {
-        // Fill out this method to run the game using the input passed in,
-        // and return a 2D tile representation of the world that would have been
-        // drawn if the same inputs had been given to playWithKeyboard().
+        String numseed = parseNum(input);
+        String instructions = parseInts(input);
+        Big world;
+        TETile[][] finalWorldFrame;
+        if (instructions.charAt(0) == 'N' || instructions.charAt(0) == 'n') {
+            Long put = Long.parseLong(numseed);
+            Random random = new Random(put);
+            finalWorldFrame = new TETile[WIDTH][HEIGHT];
+            world = new Big(finalWorldFrame, random, WIDTH, HEIGHT);
+            world.seed = put;
+            world.constructWorld();
+            world.p = new Player(world.rooms[0].xposition,
+                    world.rooms[0].yposition, world.world, random, world);
+            world.addMonsters(1);
+        } else {
+            Big object = null;
+            File f = new File("world.txt");
+            try {
+                FileInputStream fs = new FileInputStream(f);
+                ObjectInputStream os = new ObjectInputStream(fs);
+                Big loadWorld = (Big) os.readObject();
+                object = loadWorld;
+            } catch (FileNotFoundException e) {
+                System.out.println("file not found load");
+
+            } catch (IOException e) {
+                System.out.println(e);
+            } catch (ClassNotFoundException e) {
+                System.out.println("class not found");
+            }
+            world = object;
+            finalWorldFrame = object.world;
+        }
+        for (int i = 1; i < instructions.length(); i++) {
+            if ((instructions.charAt(i) == 'W' || instructions.charAt(i) == 'w')
+                    && finalWorldFrame[world.
+                    p.xpos][world.p.ypos + 1].description().equals(Tileset.FLOOR.description())) {
+                finalWorldFrame[world.p.xpos][world.p.ypos] = Tileset.FLOOR;
+                world.p.ypos++;
+                finalWorldFrame[world.p.xpos][world.p.ypos] = Tileset.PLAYER;
+            }
+            if ((instructions.charAt(i) == 'S' || instructions.charAt(i) == 's')
+                    && finalWorldFrame[world.p.xpos][world.p.ypos - 1].description
+                    ().equals(Tileset.
+                    FLOOR.description())) {
+                finalWorldFrame[world.p.xpos][world.p.ypos] = Tileset.FLOOR;
+                world.p.ypos--;
+                finalWorldFrame[world.p.xpos][world.p.ypos] = Tileset.PLAYER;
+            }
+            if ((instructions.charAt(i) == 'D' || instructions.charAt(i) == 'd')
+                    && finalWorldFrame[world.
+                    p.xpos + 1][world.p.ypos].description().equals(Tileset.FLOOR.description())) {
+                finalWorldFrame[world.p.xpos][world.p.ypos] = world.floor();
+                world.p.xpos++;
+                finalWorldFrame[world.p.xpos][world.p.ypos] = Tileset.PLAYER;
+            }
+            if ((instructions.charAt(i) == 'A' || instructions.charAt(i) == 'a')
+                    && finalWorldFrame[world.
+                    p.xpos - 1][world.p.ypos].description().equals(Tileset.FLOOR.description())) {
+                finalWorldFrame[world.p.xpos][world.p.ypos] = Tileset.FLOOR;
+                world.p.xpos--;
+                finalWorldFrame[world.p.xpos][world.p.ypos] = Tileset.PLAYER;
+            }
+            if (instructions.charAt(i) == ':') {
+                saveGame(world);
+                if ((instructions.charAt(i + 1) == 'Q') || instructions.charAt(i + 1) == 'q') {
+                    break;
+                }
+            }
+            if ((instructions.charAt(i) == 'Q') || instructions.charAt(i) == 'q') {
+                break;
+            }
+            for (Monster monster : world.monsters) {
+                monster.moveMonsters();
+            }
+        }
+        return finalWorldFrame;
+    }
+
+    public String parseNum(String input) {
         String numseed = "";
         String instructions = "";
-
         for (int i = 0; i < input.length(); i++) {
             char key = input.charAt(i);
             if (Character.isDigit(key)) {
@@ -159,121 +232,36 @@ public class Game {
                 instructions = instructions + key;
             }
         }
-
-        Big world;
-        TETile[][] finalWorldFrame;
-
-
-        if (instructions.charAt(0) == 'N' || instructions.charAt(0) == 'n') {
-            Long put = Long.parseLong(numseed);
-
-            Random random = new Random(put);
-
-
-            finalWorldFrame = new TETile[WIDTH][HEIGHT];
-            world = new Big(finalWorldFrame, random, WIDTH, HEIGHT);
-            world.seed = put;
-            world.constructWorld();
-
-            world.p = new Player(world.rooms[0].xposition, world.rooms[0].yposition, world.world, random, world);
-            world.addMonsters(1);
-
-
-        } else {
-            Big object = null;
-            File f = new File("world.txt");
-            try {
-                FileInputStream fs = new FileInputStream(f);
-                ObjectInputStream os = new ObjectInputStream(fs);
-                Big loadWorld = (Big) os.readObject();
-
-                object = loadWorld;
-            } catch (FileNotFoundException e) {
-                System.out.println("file not found load");
-
-            } catch (IOException e) {
-                System.out.println(e);
-
-            } catch (ClassNotFoundException e) {
-                System.out.println("class not found");
-
-            }
-
-
-            world = object;
-            finalWorldFrame = object.world;
-
-        }
-
-
-        //constructs the world with rooms, hallways, and walls
-
-
-        for (int i = 1; i < instructions.length(); i++) {
-            if ((instructions.charAt(i) == 'W' || instructions.charAt(i) == 'w') && finalWorldFrame[world.p.xpos][world.p.ypos + 1].description().equals(Tileset.FLOOR.description())) {
-                finalWorldFrame[world.p.xpos][world.p.ypos] = Tileset.FLOOR;
-                world.p.ypos++;
-                finalWorldFrame[world.p.xpos][world.p.ypos] = Tileset.PLAYER;
-            }
-            if ((instructions.charAt(i) == 'S' || instructions.charAt(i) == 's') && finalWorldFrame[world.p.xpos][world.p.ypos - 1].description().equals(Tileset.FLOOR.description())) {
-                finalWorldFrame[world.p.xpos][world.p.ypos] = Tileset.FLOOR;
-                world.p.ypos--;
-                finalWorldFrame[world.p.xpos][world.p.ypos] = Tileset.PLAYER;
-            }
-            if ((instructions.charAt(i) == 'D' || instructions.charAt(i) == 'd') && finalWorldFrame[world.p.xpos + 1][world.p.ypos].description().equals(Tileset.FLOOR.description())) {
-                finalWorldFrame[world.p.xpos][world.p.ypos] = world.floor();
-                world.p.xpos++;
-                finalWorldFrame[world.p.xpos][world.p.ypos] = Tileset.PLAYER;
-            }
-            if ((instructions.charAt(i) == 'A' || instructions.charAt(i) == 'a') && finalWorldFrame[world.p.xpos - 1][world.p.ypos].description().equals(Tileset.FLOOR.description())) {
-                finalWorldFrame[world.p.xpos][world.p.ypos] = Tileset.FLOOR;
-                world.p.xpos--;
-                finalWorldFrame[world.p.xpos][world.p.ypos] = Tileset.PLAYER;
-            }
-
-
-            // Saves the world object in a file called mygame
-            if (instructions.charAt(i) == ':') {
-                File f = new File("world.txt");
-                try {
-
-                    FileOutputStream fs = new FileOutputStream(f);
-                    ObjectOutputStream os = new ObjectOutputStream(fs);
-                    os.writeObject(world);
-
-                } catch (FileNotFoundException e) {
-                    System.out.println("file not found save");
-
-                } catch (IOException e) {
-                    System.out.println(e);
-
-                }
-                if ((instructions.charAt(i + 1) == 'Q') || instructions.charAt(i + 1) == 'q') {
-                    break;
-                }
-
-            }
-            if ((instructions.charAt(i) == 'Q') || instructions.charAt(i) == 'q') {
-                break;
-            }
-
-
-            if (finalWorldFrame[world.p.xpos][world.p.ypos].description().equals(Tileset.MONSTER.description())) {
-                world.p.gameOver = true;
-                break;
-            }
-
-            // Moves monsters
-            for (Monster monster : world.monsters) {
-                monster.moveMonsters();
-            }
-
-
-        }
-
-
-        return finalWorldFrame;
+        return numseed;
     }
+
+    public String parseInts(String input) {
+        String numseed = "";
+        String instructions = "";
+        for (int i = 0; i < input.length(); i++) {
+            char key = input.charAt(i);
+            if (Character.isDigit(key)) {
+                numseed = numseed + key;
+            } else {
+                instructions = instructions + key;
+            }
+        }
+        return instructions;
+    }
+
+    public void saveGame(Big world) {
+        File f = new File("world.txt");
+        try {
+            FileOutputStream fs = new FileOutputStream(f);
+            ObjectOutputStream os = new ObjectOutputStream(fs);
+            os.writeObject(world);
+        } catch (FileNotFoundException e) {
+            System.out.println("file not found save");
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+    }
+
 
 }
 
