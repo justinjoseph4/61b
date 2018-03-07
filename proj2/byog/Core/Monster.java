@@ -20,7 +20,7 @@ public class Monster implements Serializable {
     }
 
     public void moveMonsters() {
-        if (movement == "up") {
+        if (movement.equals("up")) {
             if (world[xpos][ypos + 1].description().equals(Tileset.WALL.description()) ||
                     world[xpos][ypos + 1].description().equals(Tileset.LOCKED_DOOR.description()) ||
                     world[xpos][ypos + 1].description().equals(Tileset.KEY.description())) {
@@ -37,7 +37,7 @@ public class Monster implements Serializable {
                 world[xpos][ypos] = Tileset.MONSTER;
             }
         }
-        if (movement == "down") {
+        if (movement.equals("down")) {
             if (world[xpos][ypos - 1].description().equals(Tileset.WALL.description()) ||
                     world[xpos][ypos - 1].description().equals(Tileset.LOCKED_DOOR.description()) ||
                     world[xpos][ypos - 1].description().equals(Tileset.KEY.description())) {
@@ -54,7 +54,7 @@ public class Monster implements Serializable {
                 world[xpos][ypos] = Tileset.MONSTER;
             }
         }
-        if (movement == "right") {
+        if (movement.equals("right")) {
             if (world[xpos + 1][ypos].description().equals(Tileset.WALL.description()) ||
                     world[xpos + 1][ypos].description().equals(Tileset.LOCKED_DOOR.description()) ||
                     world[xpos + 1][ypos].description().equals(Tileset.KEY.description())) {
@@ -72,7 +72,7 @@ public class Monster implements Serializable {
                 world[xpos][ypos] = Tileset.MONSTER;
             }
         }
-        if (movement == "left") {
+        if (movement.equals("left")) {
             if (world[xpos - 1][ypos].description().equals(Tileset.WALL.description()) ||
                     world[xpos - 1][ypos].description().equals(Tileset.LOCKED_DOOR.description()) ||
                     world[xpos - 1][ypos].description().equals(Tileset.KEY.description())) {

@@ -6,11 +6,10 @@ import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
 import edu.princeton.cs.introcs.StdDraw;
 
-import java.awt.*;
-import java.io.Serializable;
+import java.io.*;
 import java.util.Random;
 
-public class Big implements Serializable{
+public class Big implements Serializable {
     TETile[][] world;
     Room[] rooms;
     int numberOfRooms;
@@ -18,6 +17,9 @@ public class Big implements Serializable{
     int worldHieght;
     Player p;
     Random random;
+    String instructionss;
+    Long startseed;
+    private static final long serialVersionUID = 45498234798734234L;
     long seed;
     Monster[] monsters;
 
@@ -29,9 +31,8 @@ public class Big implements Serializable{
         this.world = world;
         worldWidth = x;
         worldHieght = y;
+
     }
-
-
 
     //helper method
     private void checkForWall (int x, int y) {
@@ -56,7 +57,6 @@ public class Big implements Serializable{
     }
 
     //makes a door in the first room
-
     private void door() {
         Room r = rooms[rooms.length -3];
         int s = r.xposition;
@@ -78,9 +78,7 @@ public class Big implements Serializable{
             r.roomOverLap(rooms, i, worldWidth, worldHieght);
             r.addRoom(world);
             rooms[i] = r;
-
         }
-
     }
 
     //constructs hallways and then adds a door in the first room
@@ -151,7 +149,7 @@ public class Big implements Serializable{
         return Tileset.FIRE;
     }
 
-    //constructs rooms, hallways, and walls in the world
+    //constructs rooms, hallways, and walls in the world for play with input string
     public void constructWorld() {
         for (int x = 0; x < world.length; x += 1) {
             for (int y = 0; y < world[0].length; y += 1) {
@@ -161,12 +159,22 @@ public class Big implements Serializable{
         constructRooms();
         constructHallways();
         constructWalls();
+        addMonsters(numberOfRooms / 2);
+        for (int x = 0; x < world.length; x += 1) {
+            for (int y = 0; y < world[0].length; y += 1) {
+                if (world[x][y] == Tileset.NOTHING) {
+                    world[x][y] = Tileset.TREE;
+                }
+
+            }
+        }
+        this.p = new Player(rooms[0].xposition, rooms[0].yposition, world,random,this);
         door();
         keyPlacer();
-
     }
 
-    public void constructWorldInput() {
+    //constructs rooms, hallways, and walls in the world for the play with keyboard
+    public void constructWorldKeyboard() {
         for (int x = 0; x < world.length; x += 1) {
             for (int y = 0; y < world[0].length; y += 1) {
                 world[x][y] = Tileset.NOTHING;
@@ -175,16 +183,16 @@ public class Big implements Serializable{
         constructRooms();
         constructHallways();
         constructWalls();
+        addMonsters(numberOfRooms / 2);
         door();
         keyPlacer();
-        addMonsters(numberOfRooms/2);
-        this.p = new Player(rooms[0].xposition, rooms[0].yposition, world, random, this);
-
     }
+
+
 
     //move the player
     public void player(TERenderer ter) {
-        //addMonsters(numberOfRooms / 2);
         p.movePlayer(ter, monsters);
     }
 }
+

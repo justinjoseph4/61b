@@ -202,7 +202,7 @@ public class Player implements Serializable {
                 }
                 if(let.equals("d")) {
                     if(world[xpos + 1][ypos].description().equals(Tileset.FLOOR.description())) {
-                       moveRight();
+                        moveRight();
                     }
                     if(world[xpos + 1][ypos].description().equals(Tileset.KEY.description())) {
                         this.key = true;
@@ -247,5 +247,3 @@ public class Player implements Serializable {
         }
     }
 }
-
-
