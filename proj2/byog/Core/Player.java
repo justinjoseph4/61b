@@ -117,6 +117,9 @@ public class Player implements Serializable {
         if(world[x][y].description().equals(Tileset.NOTHING.description())) {
             drawFrame(6, 30,20,"Nothing");
         }
+        if(world[x][y].description().equals(Tileset.MONSTER.description())) {
+            drawFrame(6, 30,20,"Monster");
+        }
     }
 
     //the status of the key
@@ -142,19 +145,32 @@ public class Player implements Serializable {
         drawFrame(40, 15, 40, "You Lose :(");
     }
 
+    //Moves Monsters
+    private void moveMonsters(Monster[] mom) {
+        for (int i = 0; i < mom.length; i++) {
+            mom[i].moveMonsters();
+        }
+    }
+
 
 
 
     //moves the player in all direction in the world
-    public void movePlayer(TERenderer ter) {
+    public void movePlayer(TERenderer ter, Monster[] mom) {
         while(!gameOver) {
             mousePosition(); //checks the position of the mouse as the game is going on
             keyStatus();
             ter.renderFrame(world);
             while(StdDraw.hasNextKeyTyped()) {
                 ter.renderFrame(world);
+                moveMonsters(mom);
                 char character = StdDraw.nextKeyTyped();
                 String let = String.valueOf(character);
+                if(world[xpos][ypos].description().equals(Tileset.FLOOR.description()) ||
+                        world[xpos][ypos].description().equals(Tileset.MONSTER.description())) {
+                    gameOver = true;
+                    gameLosing();
+                }
                 if(let.equals("w")) {
                     if(world[xpos][ypos+1].description().equals(Tileset.FLOOR.description())) {
                         moveUp();
@@ -225,7 +241,6 @@ public class Player implements Serializable {
                     } catch (IOException err1) {
                         System.out.println("IOException is caught");
                     }
-
                     return;
                 }
             }

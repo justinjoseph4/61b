@@ -70,7 +70,6 @@ public class Game {
         drawFrame(40, 12, 20, "Load Game (L)");
         drawFrame(40, 9, 20, "Quit (Q)");
         TETile[][] finalworld = new TETile[1][1];
-        //Big big = new Big(finalworld, new Random(4), 1, 1);
         int i = 0;
         while (i < 1) {
             while (StdDraw.hasNextKeyTyped()) {
@@ -88,6 +87,7 @@ public class Game {
 
                     object.constructWorld();
                     object.p = new Player(object.rooms[0].xposition, object.rooms[0].yposition, object.world, random, object);
+                    object.addMonsters(object.numberOfRooms/2);
                     object.player(ter);
 
                 }
@@ -142,10 +142,11 @@ public class Game {
          * @param input the input string to feed to your program
          * @return the 2D TETile[][] representing the state of the world
          */
-        public TETile[][] playWithInputString (String input){
+        public TETile[][] playWithInputString(String input) {
             // Fill out this method to run the game using the input passed in,
             // and return a 2D tile representation of the world that would have been
             // drawn if the same inputs had been given to playWithKeyboard().
+
             String numseed = "";
             String instructions = "";
 
@@ -170,11 +171,12 @@ public class Game {
                 finalWorldFrame = new TETile[WIDTH][HEIGHT];
                 world = new Big(finalWorldFrame, random, WIDTH, HEIGHT);
                 world.seed = put;
-                world.constructWorld();
+                world.constructWorldInput();
+                ter.renderFrame(finalWorldFrame);
             } else {
                 Big object = null;
                 try {
-                    FileInputStream file = new FileInputStream("mygame.data");
+                    FileInputStream file = new FileInputStream("mygame.txt");
                     ObjectInputStream in = new ObjectInputStream(file);
                     object = (Big) in.readObject();
                     in.close();
@@ -188,35 +190,45 @@ public class Game {
 
 
                 ter.initialize(WIDTH, HEIGHT);
-                finalWorldFrame = object.world;
                 world = object;
+                finalWorldFrame = object.world;
 
             }
 
 
             //constructs the world with rooms, hallways, and walls
+            //I LIKE APPLES
 
 
             for (int i = 1; i < instructions.length(); i++) {
-                if (instructions.charAt(i) == 'W' && finalWorldFrame[world.p.xpos][world.p.ypos + 1] != Tileset.WALL) {
-                    finalWorldFrame[world.p.xpos][world.p.ypos] = Tileset.FLOOR;
+                if (instructions.charAt(i) == 'W' && finalWorldFrame[world.p.xpos][world.p.ypos + 1].description().equals(Tileset.FLOOR.description())) {
+                    finalWorldFrame[world.p.xpos][world.p.ypos] = world.floor();
                     world.p.ypos++;
                     finalWorldFrame[world.p.xpos][world.p.ypos] = Tileset.PLAYER;
                 }
-                if (instructions.charAt(i) == 'S' && finalWorldFrame[world.p.xpos][world.p.ypos - 1] != Tileset.WALL) {
-                    finalWorldFrame[world.p.xpos][world.p.ypos] = Tileset.FLOOR;
+                if (instructions.charAt(i) == 'S' && finalWorldFrame[world.p.xpos][world.p.ypos - 1].description().equals(Tileset.FLOOR.description())) {
+                    finalWorldFrame[world.p.xpos][world.p.ypos] = world.floor();
                     world.p.ypos--;
                     finalWorldFrame[world.p.xpos][world.p.ypos] = Tileset.PLAYER;
                 }
-                if (instructions.charAt(i) == 'D' && finalWorldFrame[world.p.xpos + 1][world.p.ypos] != Tileset.WALL) {
-                    finalWorldFrame[world.p.xpos][world.p.ypos] = Tileset.FLOOR;
+                if (instructions.charAt(i) == 'D' && finalWorldFrame[world.p.xpos + 1][world.p.ypos].description().equals(Tileset.FLOOR.description())) {
+                    finalWorldFrame[world.p.xpos][world.p.ypos] = world.floor();
                     world.p.xpos++;
                     finalWorldFrame[world.p.xpos][world.p.ypos] = Tileset.PLAYER;
                 }
-                if (instructions.charAt(i) == 'A' && finalWorldFrame[world.p.xpos][world.p.ypos - 1] != Tileset.WALL) {
-                    finalWorldFrame[world.p.xpos][world.p.ypos] = Tileset.FLOOR;
+                if (instructions.charAt(i) == 'A' && finalWorldFrame[world.p.xpos][world.p.ypos - 1].description().equals(Tileset.FLOOR.description())) {
+                    finalWorldFrame[world.p.xpos][world.p.ypos] = world.floor();
                     world.p.xpos--;
                     finalWorldFrame[world.p.xpos][world.p.ypos] = Tileset.PLAYER;
+                }
+                if (finalWorldFrame[world.p.xpos][world.p.ypos].description().equals(Tileset.PLAYER.description())) {
+                    finalWorldFrame[world.p.xpos][world.p.ypos] = Tileset.FLOOR;
+                    world.p.key = true;
+                }
+                if (finalWorldFrame[world.p.xpos][world.p.ypos] == Tileset.LOCKED_DOOR && world.p.key) {
+                    world.p.gameOver = true;
+                    ter.renderFrame(finalWorldFrame);
+                    return finalWorldFrame;
                 }
 
 
@@ -225,10 +237,16 @@ public class Game {
                     monster.moveMonsters();
                 }
 
+                if (finalWorldFrame[world.p.xpos][world.p.ypos] == Tileset.FLOWER) {
+                    world.p.gameOver = true;
+                    ter.renderFrame(finalWorldFrame);
+                    return finalWorldFrame;
+                }
+
                 // Saves the world object in a file called mygame
                 if (instructions.charAt(i) == 'Q') {
                     try {
-                        FileOutputStream file = new FileOutputStream("mygame.data");
+                        FileOutputStream file = new FileOutputStream("mygame.txt");
 
                         ObjectOutputStream out = new ObjectOutputStream(file);
 
@@ -245,6 +263,10 @@ public class Game {
 
             ter.renderFrame(finalWorldFrame);
             return finalWorldFrame;
+
         }
+
+
+
 
 }

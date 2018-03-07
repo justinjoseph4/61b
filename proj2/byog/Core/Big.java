@@ -29,9 +29,6 @@ public class Big implements Serializable{
         this.world = world;
         worldWidth = x;
         worldHieght = y;
-        //int xxx = rooms[0].xposition;
-        //p = new Player(rooms[0].xposition, rooms[0].yposition, world, random);
-
     }
 
 
@@ -132,10 +129,10 @@ public class Big implements Serializable{
     //Places a key in a random room
     public void keyPlacer() {
         Room r = rooms[rooms.length/2];
-        world[r.xposition][r.yposition] = Tileset.KEY;
+        world[r.xposition + 1][r.yposition] = Tileset.KEY;
     }
 
-    private void addMonsters( int n) {
+    public void addMonsters( int n) {
         Monster[] list = new Monster[n];
         String[]  directions = new String[]{"up","down","right","left"};
         for (int i = 0; i < n; i ++) {
@@ -164,14 +161,30 @@ public class Big implements Serializable{
         constructRooms();
         constructHallways();
         constructWalls();
-        addMonsters(numberOfRooms / 2);
         door();
         keyPlacer();
 
     }
 
+    public void constructWorldInput() {
+        for (int x = 0; x < world.length; x += 1) {
+            for (int y = 0; y < world[0].length; y += 1) {
+                world[x][y] = Tileset.NOTHING;
+            }
+        }
+        constructRooms();
+        constructHallways();
+        constructWalls();
+        door();
+        keyPlacer();
+        addMonsters(numberOfRooms/2);
+        this.p = new Player(rooms[0].xposition, rooms[0].yposition, world, random, this);
+
+    }
+
     //move the player
     public void player(TERenderer ter) {
-        p.movePlayer(ter);
+        //addMonsters(numberOfRooms / 2);
+        p.movePlayer(ter, monsters);
     }
 }
