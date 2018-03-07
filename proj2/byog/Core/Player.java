@@ -229,18 +229,32 @@ public class Player implements Serializable {
                         gameWining();
                     }
                 }
-                if(let.equals("q")) {
-                    try {
-                        FileOutputStream file = new FileOutputStream("mygame.data");
+                if(let.equals(":")) {
+                    int i = 0;
+                    while (i < 1) {
+                        while(StdDraw.hasNextKeyTyped()) {
+                            char cha = StdDraw.nextKeyTyped();
+                            String l = String.valueOf(cha);
+                            if(l.equals("q")) {  //saves the game and quits the game
+                                try {
+                                    FileOutputStream file = new FileOutputStream("mygame.data");
+                                    ObjectOutputStream out = new ObjectOutputStream(file);
+                                    out.writeObject(object);
+                                    out.close();
+                                    file.close();
+                                } catch (IOException err1) {
+                                    System.out.println("IOException is caught");
+                                }
+                                return;
+                            }
+                            else {
+                                i += 1;
+                            }
 
-                        ObjectOutputStream out = new ObjectOutputStream(file);
-
-                        out.writeObject(object);
-                        out.close();
-                        file.close();
-                    } catch (IOException err1) {
-                        System.out.println("IOException is caught");
+                        }
                     }
+                }
+                if(let.equals("q")) {  //quits the game without saving the game
                     return;
                 }
             }
