@@ -17,9 +17,10 @@ public class Big implements Serializable {
     int worldHieght;
     Player p;
     Random random;
-    String instructionss;
-    Long startseed;
+
     private static final long serialVersionUID = 45498234798734234L;
+
+
     long seed;
     Monster[] monsters;
 
@@ -36,44 +37,58 @@ public class Big implements Serializable {
 
     //helper method
     private void checkForWall (int x, int y) {
-        if (world[x][y] == Tileset.WALL) {
-            world[x][y] = Tileset.LOCKED_DOOR;
+
+        for (int i = 1; i < this.worldWidth; i++) {
+            for (int j = 1; j < this.worldHieght; j ++) {
+                if (this.world[i][j].description().equals(Tileset.WALL.description())) {
+                    this.world[i][j] = Tileset.LOCKED_DOOR;
+                    return;
+                }
+            }
         }
-        else if(world[x][y+1] == Tileset.WALL) {
-            world[x][y+1] = Tileset.LOCKED_DOOR;
-        }
-        else if(world[x][y+2] == Tileset.WALL) {
-            world[x][y+2] = Tileset.LOCKED_DOOR;
-        }
-        else if(world[x][y+3] == Tileset.WALL) {
-            world[x][y+3] = Tileset.LOCKED_DOOR;
-        }
-        else if(world[x][y+4] == Tileset.WALL) {
-            world[x][y+4] = Tileset.LOCKED_DOOR;
-        }
-        else if(world[x+1][y] == Tileset.WALL) {
-            world[x+1][y] = Tileset.LOCKED_DOOR;
-        }
-        else if(world[x+2][y] == Tileset.WALL) {
-            world[x+2][y] = Tileset.LOCKED_DOOR;
-        }
-        else if(world[x+3][y] == Tileset.WALL) {
-            world[x+3][y] = Tileset.LOCKED_DOOR;
-        }
-        else if(world[x+4][y] == Tileset.WALL) {
-            world[x+4][y] = Tileset.LOCKED_DOOR;
-        }
-        else {
-            checkForWall(x + 1, y+ 1);
-        }
+        /**
+         if (world[x][y] == Tileset.WALL) {
+         world[x][y] = Tileset.LOCKED_DOOR;
+         }
+         else if(world[x][y+1] == Tileset.WALL) {
+         world[x][y+1] = Tileset.LOCKED_DOOR;
+         }
+         else if(world[x][y+2] == Tileset.WALL) {
+         world[x][y+2] = Tileset.LOCKED_DOOR;
+         }
+         else if(world[x][y+3] == Tileset.WALL) {
+         world[x][y+3] = Tileset.LOCKED_DOOR;
+         }
+         else if(world[x][y+4] == Tileset.WALL) {
+         world[x][y+4] = Tileset.LOCKED_DOOR;
+         }
+         else if(world[x+1][y] == Tileset.WALL) {
+         world[x+1][y] = Tileset.LOCKED_DOOR;
+         }
+         else if(world[x+2][y] == Tileset.WALL) {
+         world[x+2][y] = Tileset.LOCKED_DOOR;
+         }
+         else if(world[x+3][y] == Tileset.WALL) {
+         world[x+3][y] = Tileset.LOCKED_DOOR;
+         }
+         else if(world[x+4][y] == Tileset.WALL) {
+         world[x+4][y] = Tileset.LOCKED_DOOR;
+         }
+         else {
+         checkForWall(x + 1, y+ 1);
+         }
+         */
+
     }
 
     //makes a door in the first room
+
     private void door() {
         Room r = rooms[rooms.length -3];
         int s = r.xposition;
         int t = r.y2;
         checkForWall(1, 1);
+
     }
 
 
@@ -90,7 +105,9 @@ public class Big implements Serializable {
             r.roomOverLap(rooms, i, worldWidth, worldHieght);
             r.addRoom(world);
             rooms[i] = r;
+
         }
+
     }
 
     //constructs hallways and then adds a door in the first room
@@ -108,6 +125,13 @@ public class Big implements Serializable {
     public void constructWalls() {
         topBottomWalls();
         leftRightWalls();
+
+
+
+        // door();
+
+        //door();
+
     }
 
     //helper method to construct top and bottom part of the walls
@@ -161,7 +185,15 @@ public class Big implements Serializable {
         return Tileset.FIRE;
     }
 
-    //constructs rooms, hallways, and walls in the world for play with input string
+
+
+
+
+
+
+
+
+    //constructs rooms, hallways, and walls in the world
     public void constructWorld() {
         for (int x = 0; x < world.length; x += 1) {
             for (int y = 0; y < world[0].length; y += 1) {
@@ -171,7 +203,9 @@ public class Big implements Serializable {
         constructRooms();
         constructHallways();
         constructWalls();
-        addMonsters(numberOfRooms / 2);
+
+
+
         for (int x = 0; x < world.length; x += 1) {
             for (int y = 0; y < world[0].length; y += 1) {
                 if (world[x][y] == Tileset.NOTHING) {
@@ -180,12 +214,13 @@ public class Big implements Serializable {
 
             }
         }
-        this.p = new Player(rooms[0].xposition, rooms[0].yposition, world,random,this);
+
+
+
         door();
         keyPlacer();
-    }
 
-    //constructs rooms, hallways, and walls in the world for the play with keyboard
+    }
     public void constructWorldKeyboard() {
         for (int x = 0; x < world.length; x += 1) {
             for (int y = 0; y < world[0].length; y += 1) {
@@ -196,15 +231,29 @@ public class Big implements Serializable {
         constructHallways();
         constructWalls();
         addMonsters(numberOfRooms / 2);
+
+
+        for (int x = 0; x < world.length; x += 1) {
+            for (int y = 0; y < world[0].length; y += 1) {
+                if (world[x][y] == Tileset.NOTHING) {
+                    world[x][y] = Tileset.TREE;
+                }
+
+            }
+        }
+
+
         door();
         keyPlacer();
+
     }
 
 
 
     //move the player
     public void player(TERenderer ter) {
+
         p.movePlayer(ter, monsters);
     }
-}
 
+}
