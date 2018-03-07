@@ -45,11 +45,23 @@ public class Big implements Serializable {
         else if(world[x][y+2] == Tileset.WALL) {
             world[x][y+2] = Tileset.LOCKED_DOOR;
         }
+        else if(world[x][y+3] == Tileset.WALL) {
+            world[x][y+3] = Tileset.LOCKED_DOOR;
+        }
+        else if(world[x][y+4] == Tileset.WALL) {
+            world[x][y+4] = Tileset.LOCKED_DOOR;
+        }
         else if(world[x+1][y] == Tileset.WALL) {
             world[x+1][y] = Tileset.LOCKED_DOOR;
         }
         else if(world[x+2][y] == Tileset.WALL) {
             world[x+2][y] = Tileset.LOCKED_DOOR;
+        }
+        else if(world[x+3][y] == Tileset.WALL) {
+            world[x+3][y] = Tileset.LOCKED_DOOR;
+        }
+        else if(world[x+4][y] == Tileset.WALL) {
+            world[x+4][y] = Tileset.LOCKED_DOOR;
         }
         else {
             checkForWall(x + 1, y+ 1);
