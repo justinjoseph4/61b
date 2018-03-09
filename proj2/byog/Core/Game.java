@@ -121,6 +121,7 @@ public class Game {
                 }
                 if (let.equals("q")) {
                     i += 1;
+                    System.exit(0);
                 }
             }
 

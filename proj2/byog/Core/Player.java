@@ -196,7 +196,7 @@ public class Player implements Serializable {
                         gameWining();
                     }
                 }
-                if (let.equals("q")) {
+                if (let.equals(":")) {
                     try {
                         FileOutputStream file = new FileOutputStream("mygame.txt");
 
@@ -205,10 +205,14 @@ public class Player implements Serializable {
                         out.writeObject(object);
                         out.close();
                         file.close();
+
                     } catch (IOException err1) {
                         System.out.println("IOException is caught");
                     }
-                    return;
+
+                }
+                if(let.equals("q")) {
+                    System.exit(0);
                 }
             }
         }
